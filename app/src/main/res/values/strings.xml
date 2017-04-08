@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">El-Kollia</string>
+
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="closebutton">close</string>
+    <string name="hide_pwd">hide password</string>
+    <string name="show_pwd">show password</string>
+    <string name="signUp">Sign up</string>
+    <string name="login">Login</string>
+    <string name="newUser">New User</string>
+    <string name="forgot">Forgot password</string>
+    <string name="passowrd">Password</string>
+    <string name="email">Email</string>
+    <string name="mobileNumber">Mobile</string>
+    <string name="location">Location</string>
+    <string name="confirmPassword">Confirm password</string>
+    <string name="terms_conditions">terms</string>
+    <string name="already_user">Already User</string>
+    <string name="fullName">Full name</string>
+</resources>
