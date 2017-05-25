@@ -14,9 +14,17 @@
     <string name="passowrd">Password</string>
     <string name="email">Email</string>
     <string name="mobileNumber">Mobile</string>
-    <string name="location">Location</string>
+    <string name="year">year</string>
+    <string name="department">department</string>
     <string name="confirmPassword">Confirm password</string>
     <string name="terms_conditions">terms</string>
     <string name="already_user">Already User</string>
     <string name="fullName">Full name</string>
+    <string name="text_post_test">I love musicI love music
+        I love musicI love musicI love musicI love musicI loveI
+        love musicI love musicI love musicI love musicI love
+        musicI love musicI love musicI love musicI love musicI love musicI
+        love musicI love musicI love musicI love musicI love musicI love musicI
+        love musicI love musicI love musicI love musicI love music music</string>
+    <string name="title_activity_post">Post Activity</string>
 </resources>

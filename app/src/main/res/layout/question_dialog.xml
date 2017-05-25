@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <EditText
+        android:id="@+id/question_dialog_et_id"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:gravity="left"
+        android:text="what is in your mind?"
+        android:textColor="@color/black" />
+
+    <View
+        android:background="@color/white_greyish"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <Button
+            android:layout_margin="5dp"
+            android:id="@+id/cancel_quest_dialogBtn_id"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="45"
+            android:background="@drawable/signup_btn_selector"
+            android:text="Cancel" />
+
+
+        <Button
+            android:layout_margin="5dp"
+            android:id="@+id/post_quest_dialogBtn_id"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="45"
+            android:text="Post"
+            android:background="@drawable/signup_btn_selector"/>
+
+
+    </LinearLayout>
+
+</LinearLayout>

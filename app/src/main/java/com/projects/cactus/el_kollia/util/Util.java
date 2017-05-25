@@ -15,6 +15,9 @@ import android.widget.TextView;
 
 public class Util {
 
+    public static final String LOG_PREF = "pref_log";
+    public static final String QUESTION_ID_EXRA ="question_id" ;
+
     public static int dpToPx(Context context, int dp) {
         Resources r = context.getResources();
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
@@ -44,6 +47,11 @@ public class Util {
     public static final String regEx_mobile = "^01[0-2]{1}[0-9]{8}$";
 
 
+
+    public static final String regEx_email =  "^[a-zA-Z0-9._-]+@el-eng.menoufia.edu.eg$";;
+
+
+
     //Fragments Tags
     public static final String Login_Fragment = "Login_Fragment";
     public static final String SignUp_Fragment = "SignUp_Fragment";
@@ -60,6 +68,8 @@ public class Util {
     public static final String NAME = "name";
     public static final String PHONE = "phone";
     public static final String UNIQUE_ID = "unique_id";
+    public static final String EXTRA_UNIQUE_ID ="extra_unique_id" ;
+
 
     public static final String TAG = "Authentication";
 }

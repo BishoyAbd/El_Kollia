@@ -1,42 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+
+<FrameLayout
+    android:id="@+id/frag_container"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+   >
+
+
+
+
+<RelativeLayout
+
     android:id="@+id/activity_welcome"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.projects.cactus.el_kollia.Activity.WelcomeActivity"
-    android:background="@drawable/welcome_photo">
-    <android.support.v7.widget.CardView
-        android:id="@+id/stuff_login_card"
+    android:background="@drawable/login_background"
+   >
+
+    <Button
+        android:layout_above="@+id/already_user_btn_id"
+        android:id="@+id/create_account_btn_id"
+        android:text="create new account"
+        android:textColor="#fff"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        app:cardElevation="12dp"
-        app:cardCornerRadius="5dp"
-        android:alpha=".1"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="51dp"
-        android:layout_alignParentTop="true">
+        android:layout_height="@dimen/edit_text_credentials"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/button_login"/>
 
-    </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.CardView
-        app:cardCornerRadius="5dp"
-
-        android:id="@+id/student_login_card"
+    <Button
+        android:layout_alignParentBottom="true"
+        android:id="@+id/already_user_btn_id"
+        android:text="already member"
+        android:textColor="#fff"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        app:cardElevation="12dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="23dp"
-        android:alpha=".1"
-        android:layout_below="@+id/stuff_login_card"
-       >
+       android:layout_height="@dimen/edit_text_credentials"
+       android:background="@drawable/button_login"
+        android:layout_marginBottom="100dp"
+       />
 
-    </android.support.v7.widget.CardView>
+    <ImageView
+
+        android:background="@drawable/logowhite"
+        android:layout_gravity="center"
+        android:baselineAlignBottom="true"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:id="@+id/imageView"
+        android:layout_above="@+id/already_user_btn_id"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="151dp" />
 
 
 </RelativeLayout>
+</FrameLayout>

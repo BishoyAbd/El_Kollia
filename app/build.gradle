@@ -51,6 +51,10 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.3.1'
     compile 'andhradroid.dev:aFilechooser:1.0.1'
     compile 'org.parceler:parceler-api:1.1.6'
+
+    compile 'com.willowtreeapps.spruce:spruce-android:1.0.0'
+
     testCompile 'junit:junit:4.12'
     annotationProcessor 'org.parceler:parceler:1.1.6'
+
 }

@@ -2,6 +2,10 @@ package com.projects.cactus.el_kollia.Activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -27,6 +31,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.projects.cactus.el_kollia.ApiServices.AuthenticationService;
 import com.projects.cactus.el_kollia.ApiServices.ServiceGenerator;
 import com.projects.cactus.el_kollia.R;
@@ -43,6 +50,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class LoginFragment extends Fragment implements OnClickListener {
     private static View view;
 
@@ -56,6 +65,7 @@ public class LoginFragment extends Fragment implements OnClickListener {
 
     private ProgressBar progress;
     private SharedPreferences pref;
+    private boolean debugging=true;
 
     public LoginFragment() {
 
@@ -65,6 +75,8 @@ public class LoginFragment extends Fragment implements OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.login_layout, container, false);
+
+
         initViews();
         setListeners();
         return view;
@@ -73,7 +85,9 @@ public class LoginFragment extends Fragment implements OnClickListener {
     // Initiate Views
     private void initViews() {
 
-        pref = getActivity().getPreferences(0);
+       // pref = getActivity().getPreferences(0);
+        pref=getActivity().getSharedPreferences(Util.LOG_PREF,MODE_PRIVATE);
+
         progress = (ProgressBar)view.findViewById(R.id.progress);
 
         fragmentManager = getActivity().getSupportFragmentManager();
@@ -90,10 +104,15 @@ public class LoginFragment extends Fragment implements OnClickListener {
         // Load ShakeAnimation
         shakeAnimation = AnimationUtils.loadAnimation(getActivity(),R.anim.shake);
 
+        if(debugging) {
+            emailid.setText("qqq@el-eng.menoufia.edu.eg");
+            password.setText("qqq");
+        }
     }
 
     // Set Listeners
     private void setListeners() {
+
         loginButton.setOnClickListener(this);
         forgotPassword.setOnClickListener(this);
         signUp.setOnClickListener(this);
@@ -137,11 +156,11 @@ public class LoginFragment extends Fragment implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.loginBtn:
-                String phone=emailid.getText().toString();
+                String email=emailid.getText().toString();
                 String pass=password.getText().toString();
-                if(checkValidation(phone,pass)){
+                if(checkValidation(email,pass)){
 
-                    doLoginOperation(phone,pass);
+                    doLoginOperation(email,pass);
                 }
                 break;
 
@@ -150,22 +169,22 @@ public class LoginFragment extends Fragment implements OnClickListener {
                 fragmentManager
                         .beginTransaction()
                         .setCustomAnimations(R.anim.right_enter, R.anim.left_out)
-                        .replace(R.id.frameContainer, new SignupFragment(),
+                        .replace(R.id.frag_container, new SignupFragment(),
                                 Util.SignUp_Fragment).commit();
                 break;
         }
 
     }
 
-    private void doLoginOperation(String phone,String password) {
+    private void doLoginOperation(String email,String password) {
 
 
-        Log.e(Util.TAG,phone+"    "+password);
+        Log.e(Util.TAG,email+"    "+password);
 
         AuthenticationService authenticationService= ServiceGenerator.createService(AuthenticationService.class);
 
         User user=new User();
-        user.setPhoneNumber(phone);
+        user.setEmail(email);
         user.setPassword(password);
 
         ServerRequest serverRequest=new ServerRequest();
@@ -184,7 +203,7 @@ public class LoginFragment extends Fragment implements OnClickListener {
                     editor.putString(Util.NAME,resp.getUser().getName());
                     editor.putString(Util.UNIQUE_ID,resp.getUser().getUnique_id());
                     editor.apply();
-                    openMainActivity();
+                    openMainActivity(resp.getUser().getUnique_id());
 
                 }
                 progress.setVisibility(View.INVISIBLE);
@@ -202,23 +221,25 @@ public class LoginFragment extends Fragment implements OnClickListener {
         });
     }
 
-    private void openMainActivity() {
+    private void openMainActivity(String unique_id) {
 
-        startActivity(new Intent(getActivity(),MainActivity.class));
+        Intent intent=new Intent(getActivity(),MainActivity.class);
+        intent.putExtra(Util.EXTRA_UNIQUE_ID,unique_id);
+        startActivity(intent);
     }
 
     // Check Validation before login
-    private boolean checkValidation(String phone, String pass) {
+    private boolean checkValidation(String email, String pass) {
         boolean valid;
         // Get email id and password
 
         // Check patter for email id
-        Pattern p = Pattern.compile(Util.regEx_mobile);
+        Pattern p = Pattern.compile(Util.regEx_email);
 
-        Matcher m = p.matcher(phone);
+        Matcher m = p.matcher(email);
 
         // Check for both field is empty or not
-        if (phone.equals("") || phone.length() == 0
+        if (email.equals("") || email.length() == 0
                 || pass.equals("") || pass.length() == 0) {
             loginLayout.startAnimation(shakeAnimation);
             new CustomToast().Show_Toast(getActivity(), view,
@@ -234,8 +255,8 @@ public class LoginFragment extends Fragment implements OnClickListener {
         }
             // Else do login and do your stuff
         else{
-            Toast.makeText(getActivity(), "Do Login.", Toast.LENGTH_SHORT)
-                    .show();
+//            Toast.makeText(getActivity(), "Do Login.", Toast.LENGTH_SHORT)
+//                    .show();
 valid=true;
         }
         return  valid;
