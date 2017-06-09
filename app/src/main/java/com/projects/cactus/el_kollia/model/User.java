@@ -16,6 +16,8 @@ public class User {
     private String academic_year; //1 2 3 4 5
     private String department;  //control,cs,communication
     private int classification; //1 stuff--0 student
+    private String confirmPassword;
+
     public User(){
 
 
@@ -103,5 +105,12 @@ public class User {
 
     public void setClassification(int classification) {
         this.classification = classification;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+    public void setConfirmPassword(String confirmPassword) {
+         this.confirmPassword=confirmPassword;
     }
 }

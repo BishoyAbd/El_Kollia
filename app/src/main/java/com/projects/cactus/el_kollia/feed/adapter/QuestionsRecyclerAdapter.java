@@ -1,4 +1,4 @@
-package com.projects.cactus.el_kollia.adapters;
+package com.projects.cactus.el_kollia.feed.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -29,15 +29,14 @@ import retrofit2.Response;
  */
 public class QuestionsRecyclerAdapter extends RecyclerView.Adapter<QuestionsRecyclerAdapter.QViewHolder> {
 
-    List<com.projects.cactus.el_kollia.model.Question> questionList;
+    List<Question> questionList;
     Context context;
     ButtonVoteListener buttonVoteListener;
     private String TAG = "RecyclerAdapter";
     String userId;
 
 
-    public QuestionsRecyclerAdapter(Context context, List<Question> questions,String userId,
-                                    ButtonVoteListener buttonVoteListener ) {
+    public QuestionsRecyclerAdapter(Context context, List<Question> questions,String userId,ButtonVoteListener buttonVoteListener ) {
         this.questionList = questions;
         this.context = context;
         this.buttonVoteListener = buttonVoteListener;
@@ -110,7 +109,7 @@ public class QuestionsRecyclerAdapter extends RecyclerView.Adapter<QuestionsRecy
         private static final String TAG = "QViewHolder";
         TextView quTextView, quDateTextView, quOwnerTextView, quUpVotesTextView, quDownVotesTextView, quNumOfCommentsTextView;
         ImageView postOwnerImageView;
-        Button upVote_btn, downVote_btn, showCmnt_btn;
+     public  Button upVote_btn, downVote_btn, showCmnt_btn;
         private boolean pressed = false;
 
 
@@ -125,7 +124,6 @@ public class QuestionsRecyclerAdapter extends RecyclerView.Adapter<QuestionsRecy
 //            quUpVotesTextView= (TextView) itemView.findViewById(R.id.textView_upVotes_of_inPost_id);
 //            quDownVotesTextView= (TextView) itemView.findViewById(R.id.textView_downVotes_of_inPost_id);
 //            quNumOfCommentsTextView= (TextView) itemView.findViewById(R.id.textView_num_of_comments_inPost_id);
-//
 //
 
             showCmnt_btn = (Button) itemView.findViewById(R.id.button_show_comments_inPost_id);
@@ -158,8 +156,6 @@ public class QuestionsRecyclerAdapter extends RecyclerView.Adapter<QuestionsRecy
 
         void checkUpVoted() {
         }
-
-        ;
 
     }
 

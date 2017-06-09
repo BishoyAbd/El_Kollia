@@ -2,11 +2,9 @@ package com.projects.cactus.el_kollia.Activity;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -15,11 +13,10 @@ import com.projects.cactus.el_kollia.ApiServices.AnswerLoaderApi;
 import com.projects.cactus.el_kollia.ApiServices.ServiceGenerator;
 import com.projects.cactus.el_kollia.R;
 import com.projects.cactus.el_kollia.adapters.AnswerRecyclerAdapter;
+import com.projects.cactus.el_kollia.feed.view.QuestionDialog;
 import com.projects.cactus.el_kollia.model.Answer;
 import com.projects.cactus.el_kollia.model.Question;
 import com.projects.cactus.el_kollia.util.Util;
-import com.twotoasters.jazzylistview.effects.CardsEffect;
-import com.twotoasters.jazzylistview.recyclerview.JazzyRecyclerViewScrollListener;
 
 import java.util.ArrayList;
 import java.util.List;

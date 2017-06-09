@@ -1,4 +1,4 @@
-package com.projects.cactus.el_kollia.adapters;
+package com.projects.cactus.el_kollia.feed.adapter;
 
 import android.view.View;
 

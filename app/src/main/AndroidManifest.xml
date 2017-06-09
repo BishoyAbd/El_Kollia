@@ -12,19 +12,14 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.WelcomeActivity">
+        <activity android:name=".authentication.view.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.MainActivity"></activity>
-        <activity
-            android:name=".Activity.LoginActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_login"
-            android:theme="@style/FullscreenTheme"></activity>
+        <activity android:name=".feed.view.MainActivity"></activity>
         <activity
             android:name=".Activity.PostActivity"
             android:label="@string/title_activity_post"

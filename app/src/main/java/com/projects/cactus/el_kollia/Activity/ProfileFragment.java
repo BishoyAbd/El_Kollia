@@ -13,9 +13,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.projects.cactus.el_kollia.ApiServices.AuthenticationService;
+import com.projects.cactus.el_kollia.authentication.model.AuthenticationService;
 import com.projects.cactus.el_kollia.ApiServices.ServiceGenerator;
 import com.projects.cactus.el_kollia.R;
+import com.projects.cactus.el_kollia.authentication.view.WelcomeActivity;
 import com.projects.cactus.el_kollia.model.User;
 import com.projects.cactus.el_kollia.util.Util;
 

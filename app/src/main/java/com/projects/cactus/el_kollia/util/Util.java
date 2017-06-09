@@ -15,6 +15,10 @@ import android.widget.TextView;
 
 public class Util {
 
+
+    public static final String KEY_LOGGED_IN = "logged_in";
+    public static final String KEY_USER_ID = "user_id";
+    public static final String NO_USER_ID = "no_user";
     public static final String LOG_PREF = "pref_log";
     public static final String QUESTION_ID_EXRA ="question_id" ;
 

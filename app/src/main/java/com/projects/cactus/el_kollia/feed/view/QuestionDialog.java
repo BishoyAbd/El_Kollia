@@ -1,4 +1,4 @@
-package com.projects.cactus.el_kollia.Activity;
+package com.projects.cactus.el_kollia.feed.view;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import com.projects.cactus.el_kollia.model.Question;
+
 import com.projects.cactus.el_kollia.R;
 
 /**

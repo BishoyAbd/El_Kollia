@@ -1,4 +1,4 @@
-package com.projects.cactus.el_kollia.Activity;
+package com.projects.cactus.el_kollia.authentication.view;
 
 
 import android.content.Intent;
@@ -8,11 +8,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.projects.cactus.el_kollia.authentication.presenter.LoginActivityPresenter;
+import com.projects.cactus.el_kollia.feed.view.MainActivity;
 import com.projects.cactus.el_kollia.R;
 import com.projects.cactus.el_kollia.util.Util;
+
+import static com.projects.cactus.el_kollia.util.Util.KEY_LOGGED_IN;
+import static com.projects.cactus.el_kollia.util.Util.KEY_USER_ID;
+import static com.projects.cactus.el_kollia.util.Util.NO_USER_ID;
 
 public class WelcomeActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -21,17 +28,26 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
 
-    SharedPreferences sharedPreferences;
+    private LoginActivityPresenter loginActivityPresenter;
+    private String userId;
+    private String TAG = "WelcomeActivity";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
         //sharedPreferences = getPreferences(0);
-  sharedPreferences=getSharedPreferences(Util.LOG_PREF,MODE_PRIVATE);
+        loginActivityPresenter = new LoginActivityPresenter(this);
+        userId = loginActivityPresenter.getUserId(Util.KEY_USER_ID);
 
-        if (sharedPreferences.getBoolean(Util.IS_LOGGED_IN, false)) {
-            startActivity(new Intent(this, MainActivity.class));
+        Log.d(TAG,"user id ---> "+userId);
+        Log.d(TAG,"is loged in ---> "+loginActivityPresenter.isLogedIn(KEY_LOGGED_IN));
+        if (loginActivityPresenter.isLogedIn(KEY_LOGGED_IN)&&userId!=NO_USER_ID) {
+            Intent intent=new Intent(this, MainActivity.class);
+            intent.putExtra(KEY_USER_ID,userId);
+            startActivity(intent);
             finish();
 
         }

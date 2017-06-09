@@ -1,4 +1,4 @@
-package com.projects.cactus.el_kollia.Activity;
+package com.projects.cactus.el_kollia.feed.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,8 +7,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.projects.cactus.el_kollia.Activity.NotificationFragment;
+import com.projects.cactus.el_kollia.Activity.OtherFragment;
+import com.projects.cactus.el_kollia.Activity.ProfileFragment;
 import com.projects.cactus.el_kollia.R;
 import com.projects.cactus.el_kollia.adapters.MainTabsPagerAdapter;
+import com.projects.cactus.el_kollia.feed.view.FeedFragment;
 import com.projects.cactus.el_kollia.util.Util;
 
 /**
@@ -39,7 +43,7 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
         prepareRPager();
-        unique_id=getIntent().getStringExtra(Util.EXTRA_UNIQUE_ID);
+        unique_id=getIntent().getStringExtra(Util.KEY_USER_ID);
         if (unique_id!=null)
             Log.d(TAG,"unique id is = "+unique_id);
 

@@ -11,7 +11,7 @@ public class Question {
     private String unique_id;
     private String course;
     private String date;
-    private int question_id;
+    private String question_id;
     private String user_profile;
     private int academic_year;
     private String department;
@@ -24,7 +24,7 @@ public class Question {
 
 
     public Question(String question, String unique_id, String course, String date,
-                    int question_id, String user_profile_photo, int academic_year,
+                    String question_id, String user_profile_photo, int academic_year,
                     String user_name, String department) {
         this.question = question;
         this.unique_id = unique_id;
@@ -89,11 +89,11 @@ public class Question {
         this.date = date;
     }
 
-    public int getQuestion_id() {
+    public String getQuestion_id() {
         return question_id;
     }
 
-    public void setQuestion_id(int question_id) {
+    public void setQuestion_id(String question_id) {
         this.question_id = question_id;
     }
 
