@@ -5,4 +5,22 @@ package com.projects.cactus.el_kollia.model;
  */
 
 public class QuestionRequest {
+
+    private String userId;
+
+    public QuestionRequest() {
+    }
+
+
+    public QuestionRequest(String userId) {
+        this.userId = userId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 }

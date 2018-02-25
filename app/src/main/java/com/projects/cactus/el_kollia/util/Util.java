@@ -21,6 +21,7 @@ public class Util {
     public static final String NO_USER_ID = "no_user";
     public static final String LOG_PREF = "pref_log";
     public static final String QUESTION_ID_EXRA ="question_id" ;
+    public static final String ERROR_ID_INVALIDE = "0000";
 
     public static int dpToPx(Context context, int dp) {
         Resources r = context.getResources();

@@ -9,6 +9,7 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
 /**
@@ -23,4 +24,8 @@ public interface AuthenticationService {
 
     @POST()
     Call<User> getUserData(@Field("email") RequestBody email, @Field("password") RequestBody password);
+
+    @FormUrlEncoded
+    @POST("elkollya/login_register/getProfile.php")
+    Call<User> getUserData(@Field ("user_id") RequestBody uerId);
 }

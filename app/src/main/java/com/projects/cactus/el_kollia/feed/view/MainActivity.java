@@ -9,10 +9,9 @@ import android.util.Log;
 
 import com.projects.cactus.el_kollia.Activity.NotificationFragment;
 import com.projects.cactus.el_kollia.Activity.OtherFragment;
-import com.projects.cactus.el_kollia.Activity.ProfileFragment;
+import com.projects.cactus.el_kollia.profile.view.ProfileFragment;
 import com.projects.cactus.el_kollia.R;
 import com.projects.cactus.el_kollia.adapters.MainTabsPagerAdapter;
-import com.projects.cactus.el_kollia.feed.view.FeedFragment;
 import com.projects.cactus.el_kollia.util.Util;
 
 /**

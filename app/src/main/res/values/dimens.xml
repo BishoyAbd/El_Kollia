@@ -12,4 +12,7 @@
     <dimen name="drawable_et_padding">8dp</dimen>
     <dimen name="padding_start_et">12dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="field_margin">3dp</dimen>
+    <dimen name="field_height">40dp</dimen>
+    <dimen name="signup_btn_margin_top">30dp</dimen>
 </resources>

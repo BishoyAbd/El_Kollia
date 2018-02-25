@@ -1,9 +1,14 @@
 package com.projects.cactus.el_kollia.feed.view;
 
 import android.animation.Animator;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,17 +22,15 @@ import android.widget.Button;
 import com.projects.cactus.el_kollia.Activity.PostActivity;
 import com.projects.cactus.el_kollia.R;
 import com.projects.cactus.el_kollia.feed.adapter.ButtonVoteListener;
+import com.projects.cactus.el_kollia.feed.adapter.PostsAdapter;
 import com.projects.cactus.el_kollia.feed.adapter.QuestionsRecyclerAdapter;
 import com.projects.cactus.el_kollia.feed.presenter.FeedPresenter;
 import com.projects.cactus.el_kollia.model.Question;
-import com.projects.cactus.el_kollia.state.QuestionStateWrapper;
-import com.projects.cactus.el_kollia.state.State;
 import com.projects.cactus.el_kollia.util.Util;
-import com.twotoasters.jazzylistview.effects.CardsEffect;
-import com.twotoasters.jazzylistview.recyclerview.JazzyRecyclerViewScrollListener;
 import com.willowtreeapps.spruce.Spruce;
 import com.willowtreeapps.spruce.animation.DefaultAnimations;
 import com.willowtreeapps.spruce.sort.LinearSort;
+import com.willowtreeapps.spruce.sort.RadialSort;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,22 +40,24 @@ import java.util.List;
  * Created by el on 4/14/2017.
  */
 
-public class FeedFragment extends Fragment implements QuestionDialog.OnDialogButtonClick, FeedView,ButtonVoteListener {
+public class FeedFragment extends Fragment implements QuestionDialog.OnDialogButtonClick, FeedView, ButtonVoteListener {
 
     FloatingActionButton addQuestion;
     SwipeRefreshLayout swipeRefreshLayout;
     private static final String TAG = "FeedFragment";
-    QuestionsRecyclerAdapter questionsRecyclerAdapter;
+    @NonNull
+    PostsAdapter questionsRecyclerAdapter;
     RecyclerView recyclerView;
     ViewGroup parent;
-    Button buttonUpvote;
+    private String userId;
+    private Context activity;
 
-    int viewHolderPosition=-1;
+    int viewHolderPosition = -1;
     private List<Question> questions = new ArrayList<>();
     private FeedPresenter feedPresenter;
+    private java.lang.Object attachingActivityLock = new Object();
+    private Animator spruceAnimator;
 
-//    State upVoteState;
-//    QuestionStateWrapper questionStateWrapper = new QuestionStateWrapper();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstance) {
@@ -62,22 +67,28 @@ public class FeedFragment extends Fragment implements QuestionDialog.OnDialogBut
         setListener();
         QuestionDialog questionDialog = new QuestionDialog();
         questionDialog.setTargetFragment(this, 0);
-
         prepareQuestions(view);
-        feedPresenter = new FeedPresenter(this);
         feedPresenter.getPosts();
+        Log.d(TAG, "onCreateView Iscalled");
+
         return view;
 
     }
 
 
-    void initializViews(View view){
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        feedPresenter = new FeedPresenter(this);
+    }
+
+    void initializViews(View view) {
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swip_refresh_get_questions);
         addQuestion = (FloatingActionButton) view.findViewById(R.id.add_quest_fab_id);
 
     }
 
-    void setListener(){
+    void setListener() {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -102,11 +113,21 @@ public class FeedFragment extends Fragment implements QuestionDialog.OnDialogBut
     void prepareQuestions(View view) {
         recyclerView = (RecyclerView) view.findViewById(R.id.questions_recyclerView_id);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext()) {
+            @Override
+            public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
+                super.onLayoutChildren(recycler, state);
+//                // Animate in the visible children
+//                spruceAnimator = new Spruce.SpruceBuilder(recyclerView)
+//                        .sortWith(new LinearSort(80l,true, LinearSort.Direction.LEFT_TO_RIGHT))
+//                        .animateWith(DefaultAnimations.spinAnimator(recyclerView, 800))
+//                        .start();
+
+            }
+        };
+        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(questionsRecyclerAdapter);
-        JazzyRecyclerViewScrollListener jazzyRecyclerViewScrollListener = new JazzyRecyclerViewScrollListener();
-        jazzyRecyclerViewScrollListener.setTransitionEffect(new CardsEffect());
-        recyclerView.setOnScrollListener(jazzyRecyclerViewScrollListener);
 
 
     }
@@ -123,7 +144,7 @@ public class FeedFragment extends Fragment implements QuestionDialog.OnDialogBut
 
         Animator spruceAnimator = new Spruce
                 .SpruceBuilder(viewGroup)
-                .sortWith(new LinearSort(500L, false, LinearSort.Direction.TOP_TO_BOTTOM))
+                .sortWith(new RadialSort(2000L, true, RadialSort.Position.TOP_LEFT))
                 .animateWith(new Animator[]{DefaultAnimations.shrinkAnimator(viewGroup, 800L)})
                 .start();
     }
@@ -133,7 +154,16 @@ public class FeedFragment extends Fragment implements QuestionDialog.OnDialogBut
     @Override
     public void onClickPost(String content) {
         Log.d(TAG, "uploading");
-        feedPresenter.post("id", content);
+        if (userId == null || userId.equals(Util.ERROR_ID_INVALIDE)) {
+            userId = MainActivity.unique_id;
+            Log.d(TAG, "user_id from pref ---> " + userId);
+            if (!userId.equals(Util.ERROR_ID_INVALIDE) || userId != null)
+                post(userId, content);
+            else {
+                //show error and open login activity after clearing keep me loged in
+            }
+        }
+
     }
 
     @Override
@@ -142,29 +172,112 @@ public class FeedFragment extends Fragment implements QuestionDialog.OnDialogBut
     }
 
 
-    //when dislike is pressed
-    void changeButtonToDislike() {
+
+    @Override
+    public void getAllPosts() {
+
+    }
+
+    @Override
+    public void post(String userId, String post) {
+        if (feedPresenter == null) {
+//            process();
+            if (this.activity == null)
+                Log.d(TAG, "getActivity returned null from feed fragment");
+            feedPresenter = new FeedPresenter(this);
+
+        }
+        feedPresenter.post(userId, post);
+    }
+
+    @Override
+    public void onPostRetrievedSuccess(List<Question> posts) {
+        questions = posts;
+
+        questionsRecyclerAdapter = new PostsAdapter(getActivity(), questions, MainActivity.unique_id, this);
+        recyclerView.setAdapter(questionsRecyclerAdapter);
 
 
     }
 
-    //when like pressed
-    void changeButtonToLike() {
+    @Override
+    public void onPostRetrievdFailure(String error) {
+        Snackbar.make(parent, error, Snackbar.LENGTH_SHORT).show();
+    }
 
+    @Override
+    public void tryUpVote(int questionId, String userId) {
+        Log.d(TAG,"user id : "+userId+"-------> question id : "+questionId );
+        feedPresenter.upvote(questionId, userId);
+
+    }
+
+    @Override
+    public void upvotedSuccess() {
+        //make the button green
+        if (viewHolderPosition != -1)
+            updateUpVoteBtn(viewHolderPosition);
+
+    }
+
+    private void updateUpVoteBtn(int viewHolderPosition) {
+
+        PostsAdapter.QViewHolder vh = (PostsAdapter.QViewHolder) recyclerView.findViewHolderForAdapterPosition(viewHolderPosition);
+
+        View v = vh.upVote_btn;
+        // if it is not pressed
+        if (!vh.itemView.isPressed()) {
+            v.setBackground(getResources().getDrawable(R.drawable.likegreen_btn));
+            vh.itemView.setPressed(true);
+
+            Log.d(TAG, " likegreen is set pressed -> " + vh.itemView.isPressed());
+            int votes = Integer.parseInt(((Button) v).getText().toString());
+            ((Button) v).setText((votes + 1) + "");
+        } else {
+            v.setBackground(getResources().getDrawable(R.drawable.like_btn));
+            vh.itemView.setPressed(false);
+            Log.d(TAG, " like  is set pressed -> " + vh.itemView.isPressed());
+            int votes = Integer.parseInt(((Button) v).getText().toString());
+            ((Button) v).setText((votes - 1) + "");
+
+        }
+    }
+
+
+    @Override
+    public void upvotedFailure(String error) {
+        //show upvote error
+
+    }
+
+    //-------------------------called when button upvote is clicked ----delegated from the recyclerAdapter--QViewHolder
+    @Override
+    public void ButtonUpVoteOnClick(View v, int position) {
+        viewHolderPosition = position;
+        //buttonUpvote = (Button) v;
+        Question question = questions.get(position);
+        tryUpVote(question.getId(),question.getUser_id());
     }
 
 
     @Override
     public void onStop() {
         super.onStop();
+        if (questionsRecyclerAdapter!=null)
+        questionsRecyclerAdapter.clear();
     }
+
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        questionsRecyclerAdapter.clear();
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        Log.d(TAG, "onAttach Iscalled ...activity --> " + activity);
 
     }
+
+
+
 
     @Override
     public void showLoading() {
@@ -176,250 +289,28 @@ public class FeedFragment extends Fragment implements QuestionDialog.OnDialogBut
 
     }
 
-    @Override
-    public void getAllPosts() {
-
-    }
-
-    @Override
-    public void post(String userId, String post) {
-
-    }
-
-    @Override
-    public void onPostRetrievedSuccess(List<Question> posts) {
-          questions=posts;
-    questionsRecyclerAdapter=new QuestionsRecyclerAdapter(getActivity(),questions,MainActivity.unique_id,this);
-        recyclerView.setAdapter(questionsRecyclerAdapter);
-
-
-    }
-
-    @Override
-    public void onPostRetrievdFailure(String error) {
-
-    }
-
-    @Override
-    public void tryUpVote(String userId,String questionId) {
-           feedPresenter.upvote(userId, questionId);
-    }
-
-    @Override
-    public void upvotedSuccess() {
-        //make the button green
-        if (viewHolderPosition!=-1)
-            updateUpVoteBtn(viewHolderPosition);
-
-    }
-
-    private void updateUpVoteBtn( int viewHolderPosition) {
-
-        QuestionsRecyclerAdapter.QViewHolder vh= (QuestionsRecyclerAdapter.QViewHolder) recyclerView.findViewHolderForAdapterPosition(viewHolderPosition);
-
-              View v=vh.upVote_btn;
-        // if it is not pressed
-        if ( !vh.itemView.isPressed()){
-            v.setBackground(getResources().getDrawable(R.drawable.likegreen_btn));
-            vh.itemView.setPressed(true);
-
-            Log.d(TAG," likegreen is set pressed -> "+ vh.itemView.isPressed() );
-            int  votes= Integer.parseInt(((Button) v).getText().toString());
-
-            ( (Button)v).setText((votes+1)+"");
-        }
-        else {
-            v.setBackground(getResources().getDrawable(R.drawable.like_btn));
-            vh.itemView.setPressed(false);
-            Log.d(TAG, " like  is set pressed -> " + vh.itemView.isPressed());
-            int  votes= Integer.parseInt(((Button) v).getText().toString());
-
-            ( (Button)v).setText((votes-1)+"");
-
-        }
-    }
-
-
-    @Override
-    public void upvotedFailure(String error) {
-        //show upvote error
-    }
-
-    //-------------------------called when button upvote is clicked ----delegated from the recyclerAdapter--QViewHolder
-    @Override
-    public void ButtonUpVoteOnClick(View v, int position) {
-        viewHolderPosition=position;
-        //buttonUpvote = (Button) v;
-
-        Question question=questions.get(position);
-        tryUpVote(question.getUnique_id(),question.getQuestion_id());
-    }
 
     @Override
     public void ButtonDownVoteViewOnClick(View v, int position) {
 //to be implemented later later
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPauseIscalled");
+    }
 
-    //--------------------------------
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResumeIscalled");
+        if (spruceAnimator!=null)
+            spruceAnimator.start();
+
+
+    }
+
+
 }
 
-
-//    public void getQuestionsFromServer() {
-//
-//        //to do--->
-//        // load 10 quest at a time and the every time user scroll more --->more questions should appear
-//
-//        final ProgressDialog progressDialog = new ProgressDialog(getActivity());
-//        progressDialog.setMessage("Loading questions");
-//        progressDialog.show();
-//        String year;
-//        int subjectId;
-//        QuestionRequest questionRequest = new QuestionRequest();
-//         QuestionLoader questionLoader = ServiceGenerator.createService(QuestionLoader.class);
-//        Call<List<Question>> call = questionLoader.loadQuestions(questionRequest);
-//        call.enqueue(new Callback<List<Question>>() {
-//            @Override
-//            public void onResponse(Call<List<Question>> call, Response<List<Question>> response) {
-//                questions=response.body();
-//                Log.d(TAG, "on response is called ------questions ----> question_id--->" +questions.get(0).getQuestion_id()+"|| unique_id----> "+questions.get(0).getUnique_id());
-//
-//
-//                questionsRecyclerAdapter = new QuestionsRecyclerAdapter(getActivity(), questions, MainActivity.unique_id, new ButtonVoteListener() {
-//                    @Override
-//                    public void ButtonUpVoteOnClick(View v, int position) {
-//
-//                        Log.d(TAG,"item position is "+ position);
-//                        vote_2(questions.get(position));
-//
-//
-//                        RecyclerView.ViewHolder vh=recyclerView.findViewHolderForAdapterPosition(position);
-//                       // if it is not pressed
-//                   if ( !vh.itemView.isPressed()){
-//                        v.setBackground(getResources().getDrawable(R.drawable.likegreen_btn));
-//                        vh.itemView.setPressed(true);
-//
-//                        Log.d(TAG," likegreen is set pressed -> "+ vh.itemView.isPressed() );
-//                       int  votes= Integer.parseInt(((Button) v).getText().toString());
-//
-//                       ( (Button)v).setText((votes+1)+"");
-//                    }
-//                    else {
-//                        v.setBackground(getResources().getDrawable(R.drawable.like_btn));
-//                       vh.itemView.setPressed(false);
-//                        Log.d(TAG, " like  is set pressed -> " + vh.itemView.isPressed());
-//                       int  votes= Integer.parseInt(((Button) v).getText().toString());
-//
-//                       ( (Button)v).setText((votes-1)+"");
-//
-//                   }
-//                    }
-//
-//                    @Override
-//                    public void ButtonDownVoteViewOnClick(View v, int position) {
-//
-//                    }
-//                });
-//
-//                if(recyclerView!=null)
-//                recyclerView.setAdapter(questionsRecyclerAdapter);
-//                animate(parent);
-//
-//                questionsRecyclerAdapter.notifyDataSetChanged();
-//                progressDialog.dismiss();
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<Question>> call, Throwable t) {
-//                Log.d(TAG, "on error is called");
-//                Toast.makeText(getActivity(), "error loading questions", Toast.LENGTH_SHORT).show();
-//
-//
-//            }
-//        });
-//
-//
-//    }
-
-
-//  boolean addQuestion(String content) {
-//
-//
-//        Question question=new Question();
-//        question.setAcademic_year(0);
-//        question.setUnique_id(MainActivity.getUnique_id());
-//        question.setCourse("java");
-//        question.setQuestion(content);
-//
-//        QuestionPost questionPost = ServiceGenerator.createService(QuestionPost.class);
-//        Log.d(TAG, "to send to server  ----> " + question.getQuestion());
-//
-//        Call<Respond> call = questionPost.postQuestion(question);
-//
-//        call.enqueue(new Callback<Respond>() {
-//            @Override
-//            public void onResponse(Call<Respond> call, Response<Respond> response) {
-//                Log.d(TAG, "message from server ----> " + response.body().getMessage());
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Respond> call, Throwable t) {
-//                Log.d(TAG, "on error is called  ----> " + t.getLocalizedMessage());
-//            }
-//        });
-//
-//        return true;
-//    }
-
-
-//
-//    void vote_2(Question question){
-//
-//        Log.d(TAG,"vote_t is trying to upvote q_id-----> "+question.getQuestion_id());
-//        VoteRequest voteRequest=new VoteRequest();
-//        voteRequest.setQuestion(question);
-//        voteRequest.setCommand(VoteRequest.INCREASE_UP_VOTES);
-//        voteRequest.setCode("ss");
-//        VoteApi questionPost=ServiceGenerator.createService(VoteApi.class);
-//        Call<Respond> call=questionPost.upVote(voteRequest);
-//        call.enqueue(new Callback<Respond>() {
-//            @Override
-//            public void onResponse(Call<Respond> call, Response<Respond> response) {
-//                Log.d(TAG,response.body().getMessage());
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Respond> call, Throwable t) {
-//                Log.d(TAG,t.getLocalizedMessage());
-//
-//            }
-//        });
-//
-//    }
-
-//to be put inside onClick upvote
-//    boolean vote(Question question,View view){
-//        upVoteState=UpVoteState.getUpVoteState();
-//        VoteRequest voteRequest=new VoteRequest();
-//        voteRequest.setQuestion(question);
-//        voteRequest.setCode(code);
-
-
-//        QuestionPost questionPost=ServiceGenerator.createService(QuestionPost.class);
-//        Call<Respond> call=questionPost.upVote(voteRequest);
-//        call.enqueue(new Callback<Respond>() {
-//         @Override
-//         public void onResponse(Call<Respond> call, Response<Respond> response) {
-//             Log.d(TAG,response.body().getMessage());
-//         }
-//
-//         @Override
-//         public void onFailure(Call<Respond> call, Throwable t) {
-//             Log.d(TAG,t.getLocalizedMessage());
-//
-//         }
-//     });
-
-
-//  return false;
-//}

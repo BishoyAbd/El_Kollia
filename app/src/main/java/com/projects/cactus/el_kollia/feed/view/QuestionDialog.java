@@ -21,9 +21,6 @@ import com.projects.cactus.el_kollia.R;
 
 public class QuestionDialog extends DialogFragment implements View.OnClickListener {
 
-
-
-
     public interface OnDialogButtonClick{
 
        void onClickPost(String content);

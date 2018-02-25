@@ -30,7 +30,6 @@ public class OtherFragment extends Fragment {
         final View view=inflater.inflate(R.layout.other_fragment,container,false);
 
         CustomLayout customLayout= (CustomLayout) view.findViewById(R.id.other_linearLayout_id);
-        Picasso.with(getActivity()).load(R.drawable.section).into(customLayout);
         return view;
 
     }

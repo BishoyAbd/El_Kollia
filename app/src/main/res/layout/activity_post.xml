@@ -8,7 +8,6 @@
     tools:context="com.projects.cactus.el_kollia.Activity.PostActivity">
 
 
-
     <include layout="@layout/content_post" />
 
     <android.support.design.widget.FloatingActionButton
@@ -17,6 +16,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/btn_plus" />
+        android:src="@android:drawable/ic_menu_call"
+        app:backgroundTint="@color/colorPrimary"
+        app:layout_anchorGravity="bottom|end" />
 
 </android.support.design.widget.CoordinatorLayout>

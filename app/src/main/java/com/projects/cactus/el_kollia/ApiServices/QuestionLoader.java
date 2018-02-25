@@ -13,6 +13,15 @@ import retrofit2.http.POST;
  */
 public interface QuestionLoader {
 
-    @POST("elkollya/load_question.php")
+//    @POST("elkollya/load_question.php")
+//    Call<List<Question>> loadQuestions(@Body QuestionRequest questionRequest);
+
+    @POST("elkollya/questions.php")
     Call<List<Question>> loadQuestions(@Body QuestionRequest questionRequest);
+
+
+
+    @POST("elkollya/load_user_questions.php")
+    Call<List<Question>> loadUsrtQuestions(@Body QuestionRequest questionRequest);
+
 }

@@ -7,27 +7,29 @@ package com.projects.cactus.el_kollia.model;
 public class Question {
 
     //  private int question_id;
+    private int id;
     private String question;
-    private String unique_id;
+    private String user_id; //question poster id
     private String course;
     private String date;
     private String question_id;
     private String user_profile;
     private int academic_year;
     private String department;
-    private  String user_name;
+    private String user_name;
     private int up_votes;
     private int down_votes;
     private int num_of_comments;
+    private String likes;
 
 
 
 
-    public Question(String question, String unique_id, String course, String date,
+    public Question(String question, String user_id, String course, String date,
                     String question_id, String user_profile_photo, int academic_year,
-                    String user_name, String department) {
+                    String user_name, String department, String likes) {
         this.question = question;
-        this.unique_id = unique_id;
+        this.user_id = user_id;
         this.course = course;
         this.date = date;
         this.question_id = question_id;
@@ -35,6 +37,7 @@ public class Question {
         this.academic_year = academic_year;
         this.user_name=user_name;
         this.department=department;
+        this.likes=likes;
     }
 
     public  Question(){
@@ -57,12 +60,12 @@ public class Question {
         this.question = question;
     }
 
-    public String getUnique_id() {
-        return unique_id;
+    public String getUser_id() {
+        return user_id;
     }
 
-    public void setUnique_id(String unique_id) {
-        this.unique_id = unique_id;
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
     }
 
     public String getCourse() {
@@ -143,5 +146,21 @@ public class Question {
 
     public void setNum_of_comments(int num_of_comments) {
         this.num_of_comments = num_of_comments;
+    }
+
+    public String getLikesIds() {
+        return likes;
+    }
+
+    public void setLikesIds(String likesIds) {
+        this.likes = likesIds;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

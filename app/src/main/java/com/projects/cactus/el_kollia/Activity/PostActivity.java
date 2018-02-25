@@ -25,18 +25,19 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+
+//activity that contain post and it's comment
 public class PostActivity extends AppCompatActivity {
 
-    private static final String QID_EXTRA ="question_id" ;
+    private static final String QID_EXTRA = "question_id";
     private FloatingActionButton fab;
-    Question question;
-    List<Answer> answerList=new ArrayList<>();
+    private Question question;
+    private List<Answer> answerList = new ArrayList<>();
     private RecyclerView recyclerView;
     private RecyclerView.Adapter answerRecyclerAdapter;
-    RecyclerView.LayoutManager layoutManager;
-    private String TAG="PostActivity";
-    int questionId;
-
+    private RecyclerView.LayoutManager layoutManager;
+    private String TAG = "PostActivity";
+    private int questionId;
 
 
     @Override
@@ -48,42 +49,36 @@ public class PostActivity extends AppCompatActivity {
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //        getSupportActionBar().setHomeButtonEnabled(true);
 
-        questionId=getIntent().getIntExtra(Util.QUESTION_ID_EXRA,0);
+        questionId = getIntent().getIntExtra(Util.QUESTION_ID_EXRA, 0);
         initializeViews();
         prepareAnswers();
-        Log.d(TAG,"q id---- ---> ansewe(0) --> "+questionId);
+        Log.d(TAG, "q id---- ---> ansewe(0) --> " + questionId);
 
-        if (questionId!=0)
-        loadAnswers(questionId);
+        if (questionId != 0)
+            loadAnswers(questionId);
         else
             Toast.makeText(this, "error loading answers please refresh ", Toast.LENGTH_SHORT).show();
 
     }
 
 
-
     void prepareAnswers() {
-        recyclerView = (RecyclerView)findViewById(R.id.answers_recyclerView_id);
-         layoutManager = new LinearLayoutManager(this);
+        recyclerView = (RecyclerView) findViewById(R.id.answers_recyclerView_id);
+        layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        answerRecyclerAdapter=new AnswerRecyclerAdapter(answerList,this);
+        answerRecyclerAdapter = new AnswerRecyclerAdapter(answerList, this);
         recyclerView.setAdapter(answerRecyclerAdapter);
-
-
 
     }
 
 
-
-    void initializeViews(){
+    void initializeViews() {
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 openAnswerDialog();
-
             }
         });
 
@@ -94,32 +89,31 @@ public class PostActivity extends AppCompatActivity {
         questionDialog.show(PostActivity.this.getSupportFragmentManager(), "QuestionDialog");
     }
 
-    void loadAnswers(int questionId){
 
-    AnswerLoaderApi answerLoaderApi= ServiceGenerator.createService(AnswerLoaderApi.class);
-    Call<List<Answer>> call=answerLoaderApi.loadAnswers(String.valueOf(questionId));
+    void loadAnswers(int questionId) {
 
-    call.enqueue(new Callback<List<Answer>>() {
-        @Override
-        public void onResponse(Call<List<Answer>> call, Response<List<Answer>> response) {
-            answerList=response.body();
-            Log.d(TAG,"on response is called ---> ansewe(0) --> "+answerList.get(0).getAnswer());
-            answerRecyclerAdapter=new AnswerRecyclerAdapter(answerList,PostActivity.this);
-            recyclerView.setAdapter(answerRecyclerAdapter);
-            Log.d(TAG,"on response is called ---> adapter item counts --> "+answerRecyclerAdapter.getItemCount());
-            answerRecyclerAdapter.notifyDataSetChanged();
-        }
+        AnswerLoaderApi answerLoaderApi = ServiceGenerator.createService(AnswerLoaderApi.class);
+        Call<List<Answer>> call = answerLoaderApi.loadAnswers(String.valueOf(questionId));
 
-        @Override
-        public void onFailure(Call<List<Answer>> call, Throwable t) {
-            Log.d(TAG,"on error is called --->  "+t.getLocalizedMessage());
+        call.enqueue(new Callback<List<Answer>>() {
+            @Override
+            public void onResponse(Call<List<Answer>> call, Response<List<Answer>> response) {
+                answerList = response.body();
+                Log.d(TAG, "on response is called ---> ansewe(0) --> " + answerList.get(0).getAnswer());
+                answerRecyclerAdapter = new AnswerRecyclerAdapter(answerList, PostActivity.this);
+                recyclerView.setAdapter(answerRecyclerAdapter);
+                Log.d(TAG, "on response is called ---> adapter item counts --> " + answerRecyclerAdapter.getItemCount());
+                answerRecyclerAdapter.notifyDataSetChanged();
+            }
 
-        }
-    });
+            @Override
+            public void onFailure(Call<List<Answer>> call, Throwable t) {
+                Log.d(TAG, "on error is called --->  " + t.getLocalizedMessage());
+
+            }
+        });
 
 
-
-}
-
+    }
 
 }

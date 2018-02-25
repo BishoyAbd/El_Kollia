@@ -15,7 +15,7 @@ import com.projects.cactus.el_kollia.ApiServices.ServiceGenerator;
 import com.projects.cactus.el_kollia.ApiServices.VoteApi;
 import com.projects.cactus.el_kollia.R;
 import com.projects.cactus.el_kollia.model.Question;
-import com.projects.cactus.el_kollia.model.Respond;
+import com.projects.cactus.el_kollia.model.Vote;
 import com.projects.cactus.el_kollia.model.VoteRequest;
 
 import java.util.List;
@@ -36,11 +36,11 @@ public class QuestionsRecyclerAdapter extends RecyclerView.Adapter<QuestionsRecy
     String userId;
 
 
-    public QuestionsRecyclerAdapter(Context context, List<Question> questions,String userId,ButtonVoteListener buttonVoteListener ) {
+    public QuestionsRecyclerAdapter(Context context, List<Question> questions, String userId, ButtonVoteListener buttonVoteListener) {
         this.questionList = questions;
         this.context = context;
         this.buttonVoteListener = buttonVoteListener;
-        this.userId=userId;
+        this.userId = userId;
     }
 
 
@@ -60,32 +60,32 @@ public class QuestionsRecyclerAdapter extends RecyclerView.Adapter<QuestionsRecy
         //holder.quDownVotesTextView.setText(question.getDown_votes());
         // holder.quNumOfCommentsTextView.setText(question.getNum_of_comments());
         Glide.with(context).load(question.getUser_profile_photo()).centerCrop().into(holder.postOwnerImageView);
-        (holder.upVote_btn).setText(question.getUp_votes()+"");
+        (holder.upVote_btn).setText(question.getUp_votes() + "");
         //get question ID
         //check if user had already liked it o not
         //if liked ----->green
         //else------->default
         VoteApi questionPost = ServiceGenerator.createService(VoteApi.class);
         VoteRequest voteRequest = new VoteRequest();
-        question.setUnique_id(userId);
+        question.setUser_id(userId);
         voteRequest.setQuestion(question);
-        Log.d(TAG,"user id---> "+question.getUnique_id());
-        Call<Respond> call = questionPost.alreadyUpVoted(voteRequest);
-        call.enqueue(new Callback<Respond>() {
+        Log.d(TAG, "user id---> " + question.getUser_id());
+        Call<Vote> call = questionPost.alreadyUpVoted(voteRequest);
+        call.enqueue(new Callback<Vote>() {
             @Override
-            public void onResponse(Call<Respond> call, Response<Respond> response) {
-                Log.d(TAG, "message--> " + response.body().getMessage());
-
-                if (response.body().getError()) {
-                    Log.d(TAG, "button is set to green because message from server is ----> up_voted");
-                    holder.itemView.setPressed(true);
-                    holder.upVote_btn.setBackground(context.getResources().getDrawable(R.drawable.likegreen_btn));
-                }
+            public void onResponse(Call<Vote> call, Response<Vote> response) {
+                 Log.d(TAG, "message--> " + response.body().getMessage());
+                if (response.body() != null)
+                    if (response.body().isUpvoted()) {
+                        Log.d(TAG, "button is set to green because message from server is ----> up_voted");
+                        holder.itemView.setPressed(true);
+                        holder.upVote_btn.setBackground(context.getResources().getDrawable(R.drawable.likegreen_btn));
+                    }
             }
 
 
             @Override
-            public void onFailure(Call<Respond> call, Throwable t) {
+            public void onFailure(Call<Vote> call, Throwable t) {
                 Log.d(TAG, "on failure is called");
             }
         });
@@ -109,11 +109,8 @@ public class QuestionsRecyclerAdapter extends RecyclerView.Adapter<QuestionsRecy
         private static final String TAG = "QViewHolder";
         TextView quTextView, quDateTextView, quOwnerTextView, quUpVotesTextView, quDownVotesTextView, quNumOfCommentsTextView;
         ImageView postOwnerImageView;
-     public  Button upVote_btn, downVote_btn, showCmnt_btn;
+        public Button upVote_btn, downVote_btn, showCmnt_btn;
         private boolean pressed = false;
-
-
-
 
         public QViewHolder(View itemView) {
             super(itemView);
@@ -129,7 +126,6 @@ public class QuestionsRecyclerAdapter extends RecyclerView.Adapter<QuestionsRecy
             showCmnt_btn = (Button) itemView.findViewById(R.id.button_show_comments_inPost_id);
 
             upVote_btn = (Button) itemView.findViewById(R.id.button_upVote_inPost_id);
-            downVote_btn = (Button) itemView.findViewById(R.id.button_downVote_inPost_id);
 
             setPressed(false);
 

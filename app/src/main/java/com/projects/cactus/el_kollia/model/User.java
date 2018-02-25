@@ -6,6 +6,8 @@ package com.projects.cactus.el_kollia.model;
 
 public class User {
 
+
+
     private String name;
     private String email; //pluplu@el-eng.menoufia.edu.eg
     private String unique_id;
@@ -17,21 +19,32 @@ public class User {
     private String department;  //control,cs,communication
     private int classification; //1 stuff--0 student
     private String confirmPassword;
+    private String profile_url;
+    private String cover_url;
+    private String bio;
+
 
     public User(){
 
 
     }
 
-    public User(String name, String email, String unique_id, String phone_number, String password, String academic_year, String department, int classification) {
-        this.name = name;
-        this.email = email;
-        this.unique_id = unique_id;
-        this.phone_number = phone_number;
-        this.password = password;
-        this.academic_year = academic_year;
-        this.department = department;
-        this.classification = classification;
+    public User(String name, String email, String unique_id,
+                String phone_number, String password, String academic_year,
+                String department, int classification,
+    String profile_url,String cover_url)  {
+
+        this.setName(name);
+        this.setEmail(email);
+        this.setUnique_id(unique_id);
+        this.setPhone_number(phone_number);
+        this.setPassword(password);
+        this.setAcademic_year(academic_year);
+        this.setDepartment(department);
+        this.setClassification(classification);
+        this.setProfile_url(profile_url);
+        this.setCover_url(cover_url);
+
     }
 
     public String getName() {
@@ -112,5 +125,30 @@ public class User {
     }
     public void setConfirmPassword(String confirmPassword) {
          this.confirmPassword=confirmPassword;
+    }
+
+    public String getProfile_url() {
+        return profile_url;
+    }
+
+    public void setProfile_url(String profile_url) {
+        this.profile_url = profile_url;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public String getCover_url() {
+        return cover_url;
+    }
+
+    public void setCover_url(String cover_url) {
+        this.cover_url = cover_url;
     }
 }

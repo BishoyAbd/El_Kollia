@@ -34,7 +34,6 @@
             android:textSize="15sp"
             android:drawableStart="@drawable/email"
             android:drawablePadding="@dimen/drawable_et_padding"
-
             style="?android:attr/borderlessButtonStyle"
             />
 

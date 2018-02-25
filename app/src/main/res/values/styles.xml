@@ -29,6 +29,10 @@
 
 
     </style>
+    <style name="AppTheme.NoActionBar" parent="AppTheme">
+        <item name="windowActionBar"> false</item>
+    </style>
+
 
     <style name="customTabTextAppearence" parent="TextAppearance.Design.Tab">
         <item name="textAllCaps">false</item>

@@ -38,6 +38,9 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+
+
+
         //sharedPreferences = getPreferences(0);
         loginActivityPresenter = new LoginActivityPresenter(this);
         userId = loginActivityPresenter.getUserId(Util.KEY_USER_ID);

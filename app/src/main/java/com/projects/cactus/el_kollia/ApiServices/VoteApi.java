@@ -1,6 +1,7 @@
 package com.projects.cactus.el_kollia.ApiServices;
 
 import com.projects.cactus.el_kollia.model.Respond;
+import com.projects.cactus.el_kollia.model.Vote;
 import com.projects.cactus.el_kollia.model.VoteRequest;
 
 import retrofit2.Call;
@@ -21,6 +22,6 @@ public interface VoteApi {
     Call<Respond> downVote(@Body VoteRequest voteRequest);
 
     @POST("elkollya/vote/check_v.php")
-    Call<Respond> alreadyUpVoted(@Body VoteRequest voteRequest);
+    Call<Vote> alreadyUpVoted(@Body VoteRequest voteRequest);
 
 }
