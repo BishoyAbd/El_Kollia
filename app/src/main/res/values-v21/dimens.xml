@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="signup_btn_margin_top">30dp</dimen>
+    <dimen name="activity_horizontal_margin">64dp</dimen>
+    <dimen name="edit_text_credentials">50dp</dimen>
+    <dimen name="field_margin">5dp</dimen>
+    <dimen name="field_height">44dp</dimen>
+</resources>
