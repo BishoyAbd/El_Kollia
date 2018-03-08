@@ -1,62 +1,101 @@
 package com.projects.cactus.el_kollia.authentication.presenter;
 
-import android.content.Context;
-import android.support.v4.app.FragmentActivity;
-
 import com.projects.cactus.el_kollia.authentication.model.AuthenticationDataManager;
-import com.projects.cactus.el_kollia.authentication.view.LoginView;
+import com.projects.cactus.el_kollia.authentication.view.LoginContract;
 import com.projects.cactus.el_kollia.model.ServerResponse;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 /**
  * Created by el on 6/8/2017.
  */
 
-public class LoginPresenter implements LoginPresenterContract {
+public class LoginPresenter implements LoginContract.Presenter {
 
-    private LoginView loginView;
+    private LoginContract.LoginView loginView;
     private AuthenticationDataManager authenticationDataManager;
-    AuthenticationInteractor authenticationInteractor;
-    private Context context;
+    private CompositeDisposable compositeDisposable;
 
-    public LoginPresenter(LoginView loginView) {
+    public LoginPresenter(LoginContract.LoginView loginView, AuthenticationDataManager authenticationDataManager) {
         this.loginView = loginView;
-    }
-
-    public LoginPresenter(Context context) {
-        this.context = context;
+        this.authenticationDataManager = authenticationDataManager;
+        compositeDisposable = new CompositeDisposable();
     }
 
 
     @Override
     public void login(String userName, String password) {
-        authenticationInteractor=new AuthenticationInteractor();
-        if (authenticationInteractor.checkValidation(userName,password))     {
-            authenticationDataManager=new AuthenticationDataManager(this);
-            authenticationDataManager.loginUser(userName,password);
+
+        loginView.showLoading();
+        loginView.enableInput(false);
+
+        compositeDisposable.clear();
+        Disposable disposable = authenticationDataManager.loginUser(userName, password)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<ServerResponse>() {
+                    @Override
+                    public void onSuccess(@NonNull ServerResponse serverResponse) {
+                        process(serverResponse);
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        loginView.hideLoading(); //reset btn  inside it
+                        Timber.d("button was reset to it's first state");
+
+                        //error while conecting
+                        loginView.enableInput(true);
+                        loginView.showError();
+                    }
+                });
+
+        compositeDisposable.add(disposable);
+
+    }
+
+    @Override
+    public boolean isLoggedIn(String keyLogSate, String keyUserId) {
+        return authenticationDataManager.isLoggedin(keyLogSate, keyUserId);
+    }
+
+    private void process(ServerResponse serverResponse) {
+        loginView.hideLoading(); //reset button inside it
+        loginView.enableInput(true);
+        Timber.d("button was reset to it's first state");
+        loginView.hideError();
+        //if no error from server
+        if (!Boolean.parseBoolean(serverResponse.getError())) {
+            loginView.onLoginSuccess(serverResponse.getUser());
+
         }
+
+        //error from server ... either a prloblem or user doesnot exist
         else
-            invalidLoginCredentials();
+            loginView.showMessage(serverResponse.getMessage());
 
 
     }
 
-    @Override
-    public void loginSuccess(ServerResponse serverResponse) {
-        loginView.onLoginSuccess(serverResponse);
+
+    public void keepMeLoggedIn(String Key, String userIdKey, String UserId) {
+        authenticationDataManager.keepMeloggededIn(Key, userIdKey, UserId);
     }
 
     @Override
-    public void loginFailed(String error) {
-        loginView.onLoginFailure(error);
+    public void subscribe(LoginContract.LoginView view) {
+        this.loginView = view;
     }
 
     @Override
-    public void invalidLoginCredentials() {
-        loginView.onLoginFailure(AuthenticationInteractor.ERROR_INVALID_CRED);
-    }
-
-    @Override
-    public void keepMeLogedIn(String Key, String userIdKey, String UserId) {
-           new AuthenticationDataManager(context).keepMeloggededIn(Key, userIdKey, UserId);
+    public void unsubscribe() {
+//        loginView = null;
+        compositeDisposable.clear();
     }
 }

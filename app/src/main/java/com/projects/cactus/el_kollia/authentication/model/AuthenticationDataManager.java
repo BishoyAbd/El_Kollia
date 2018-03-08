@@ -2,19 +2,14 @@ package com.projects.cactus.el_kollia.authentication.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.projects.cactus.el_kollia.ApiServices.ServiceGenerator;
-import com.projects.cactus.el_kollia.authentication.presenter.LoginPresenterContract;
-import com.projects.cactus.el_kollia.authentication.presenter.SignUpPresenterContract;
-import com.projects.cactus.el_kollia.model.ServerRequest;
 import com.projects.cactus.el_kollia.model.ServerResponse;
 import com.projects.cactus.el_kollia.model.User;
 import com.projects.cactus.el_kollia.util.Util;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.Single;
+import timber.log.Timber;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -25,122 +20,89 @@ import static android.content.Context.MODE_PRIVATE;
 public class AuthenticationDataManager implements AuthenticationContract {
 
 
-    private SignUpPresenterContract signUpPresenterContract;
-    private LoginPresenterContract presenterContract;
-    private Context context;
-    SharedPreferences  pref;
+    public static final String LOG_PREF = "pref_log";
+    public static final String KEY_LOG_SATE = "login_logout";
+    private static AuthenticationDataManager instance;
 
-    public AuthenticationDataManager(Context context) {
-        this.context=context;
-        pref = context.getApplicationContext().getSharedPreferences(Util.LOG_PREF,MODE_PRIVATE);
+
+    private SharedPreferences pref;
+    private AuthenticationService authenticationService;
+
+
+    private AuthenticationDataManager(Context context) {
+
+        pref = context.getApplicationContext().getSharedPreferences(LOG_PREF, MODE_PRIVATE);
+        authenticationService = ServiceGenerator.createService(AuthenticationService.class);
+
 
     }
 
-    public AuthenticationDataManager(SignUpPresenterContract signUpPresenterContract) {
-
-        this.signUpPresenterContract = signUpPresenterContract;
-    }
-
-    public AuthenticationDataManager(LoginPresenterContract presenterContract) {
-
-        this.presenterContract = presenterContract;
-    }
 
     @Override
-    public void SignUpUer(String name, String email, String pass, String confirmPass) {
-
-        AuthenticationService authenticationService = ServiceGenerator.createService(AuthenticationService.class);
-
-        User user = new User();
-
-        user.setName(name);
-        user.setEmail(email);
-        user.setAcademic_year("second");
-        user.setDepartment("cs");
-        user.setClassification(1);
-        user.setPhoneNumber("01228790902");
-        user.setPassword(pass);
+    public Single<ServerResponse> SignUpUer(User user) {
 
         ServerRequest serverRequest = new ServerRequest();
         serverRequest.setOperation(Util.REGISTER_OPERATION);
         serverRequest.setUser(user);
 
-
-        Call<ServerResponse> call = authenticationService.authenticate(serverRequest);
-        call.enqueue(new Callback<ServerResponse>() {
-
-            @Override
-            public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
-
-                ServerResponse resp = response.body();
-                signUpPresenterContract.signUpnSuccess(resp);
-                // Snackbar.make(getView(), resp.getMessage(), Snackbar.LENGTH_LONG).show();
-                //  ((WelcomeActivity) getActivity()).replaceLoginFragment();
-            }
-
-            @Override
-            public void onFailure(Call<ServerResponse> call, Throwable t) {
-                signUpPresenterContract.signUpFailed(t.getLocalizedMessage());
-            }
-        });
-
+        return authenticationService.authenticate(serverRequest);
 
     }
 
-    @Override
-    public void loginUser(String email, String password) {
 
-        Log.e(Util.TAG, email + "    " + password);
+    @Override
+    public Single<ServerResponse> loginUser(String phone, String password) {
+
+        Timber.d(Util.TAG, phone + "    " + password);
 
         AuthenticationService authenticationService = ServiceGenerator.createService(AuthenticationService.class);
 
         User user = new User();
-        user.setEmail(email);
+        user.setPhoneNumber(phone);
         user.setPassword(password);
 
         ServerRequest serverRequest = new ServerRequest();
         serverRequest.setOperation(Util.LOGIN_OPERATION);
         serverRequest.setUser(user);
 
-        Call<ServerResponse> call = authenticationService.authenticate(serverRequest);
-        call.enqueue(new Callback<ServerResponse>() {
-            @Override
-            public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
-                ServerResponse resp = response.body();
-                if (resp.getResult().equals(Util.SUCCESS)) {
-                    presenterContract.loginSuccess(resp);
+        return authenticationService.authenticate(serverRequest);
 
-
-                }
-
-            }
-
-
-            @Override
-            public void onFailure(Call<ServerResponse> call, Throwable t) {
-                Log.d(Util.TAG, "failed");
-                presenterContract.loginFailed(t.getLocalizedMessage());
-            }
-        });
     }
 
+    public Single<User> getUserInfo(String userId) {
+        AuthenticationService authenticationService = ServiceGenerator.createService(AuthenticationService.class);
+        return authenticationService.getUserData(userId);
+
+
+    }
+
+
     @Override
-    public boolean isLoggedin(String key) {
-        return pref.getBoolean(key,false);
+    public boolean isLoggedin(String key_log_state, String key_user_id) {
+        return pref.getBoolean(key_log_state, false) && pref.getString(key_user_id, Util.NO_USER_ID) != Util.NO_USER_ID;
     }
 
     @Override
     public String getUserId(String key) {
-        return pref.getString(key,"no_user");
+        return pref.getString(key, Util.NO_USER_ID);
     }
 
     @Override
-    public void keepMeloggededIn(String keyLogedIn,String keyUser,String userId) {
+    public void keepMeloggededIn(String keyLogedIn, String keyUser, String userId) {
         SharedPreferences.Editor editor = pref.edit();
         editor.putBoolean(keyLogedIn, true);
-        editor.putString(keyUser,userId);
+        editor.putString(keyUser, userId);
         editor.apply();
     }
 
+    public void logOut(String key_user_login) {
+        pref.edit().putBoolean(key_user_login, false).apply();
 
+    }
+
+    public static AuthenticationDataManager getInstance(Context context) {
+        if (instance == null)
+            instance = new AuthenticationDataManager(context);
+        return instance;
+    }
 }

@@ -1,6 +1,7 @@
 package com.projects.cactus.el_kollia.authentication.presenter;
 
-import com.projects.cactus.el_kollia.customviews.CustomToast;
+
+
 import com.projects.cactus.el_kollia.util.Util;
 
 import java.util.regex.Matcher;
@@ -15,19 +16,19 @@ public class AuthenticationInteractor {
 
     public static final String ERROR_INVALID_CRED="invalid credentials!";
 
-    public boolean checkValidation(String name, String email, String pass, String confirmPass) {
+    public boolean checkValidation(String name, String phone, String pass, String confirmPass) {
 
         boolean valid;
 
 
         // Pattern match for email id
-        Pattern p = Pattern.compile(Util.regEx_email);
-        Matcher m = p.matcher(email);
+        Pattern p = Pattern.compile(Util.regEx_mobile);
+        Matcher m = p.matcher(phone);
 
         // Check if all strings are null or not
         if (name.equals("") || name.length() == 0
-                || email.equals("") || email.length() == 0
-                || email.equals("") || email.length() == 0
+                || phone.equals("") || phone.length() == 0
+                || phone.equals("") || phone.length() == 0
                 || pass.equals("") || pass.length() == 0
                 || confirmPass.equals("")
                 || confirmPass.length() == 0) {
@@ -65,17 +66,17 @@ public class AuthenticationInteractor {
 
 
     // Check Validation before login
-    public boolean checkValidation(String email, String pass) {
+    public boolean checkValidation(String phone, String pass) {
         boolean valid;
         // Get email id and password
 
         // Check patter for email id
         Pattern p = Pattern.compile(Util.regEx_email);
 
-        Matcher m = p.matcher(email);
+        Matcher m = p.matcher(phone);
 
         // Check for both field is empty or not
-        if (email.equals("") || email.length() == 0
+        if (phone.equals("") || phone.length() == 0
                 || pass.equals("") || pass.length() == 0) {
 //            loginLayout.startAnimation(shakeAnimation);
 //            new CustomToast().Show_Toast(getActivity(), view,

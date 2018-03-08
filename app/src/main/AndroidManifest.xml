@@ -25,7 +25,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".feed.view.MainActivity"></activity>
+        <activity android:name=".feed.MainActivity"></activity>
         <activity
             android:name=".Activity.PostActivity"
             android:label="@string/title_activity_post"

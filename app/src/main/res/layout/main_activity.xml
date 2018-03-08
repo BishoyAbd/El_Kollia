@@ -15,8 +15,6 @@
             android:id="@+id/tab_layout_main_id"
             app:tabMode="fixed"
             app:tabGravity="fill"
-
-            app:tabTextAppearance="@style/customTabTextAppearence"
             app:tabIndicatorColor="@color/colorAccent"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize">

@@ -1,14 +1,12 @@
-package com.projects.cactus.el_kollia.feed.view;
+package com.projects.cactus.el_kollia.feed;
 
 import android.animation.Animator;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,13 +21,10 @@ import com.projects.cactus.el_kollia.Activity.PostActivity;
 import com.projects.cactus.el_kollia.R;
 import com.projects.cactus.el_kollia.feed.adapter.ButtonVoteListener;
 import com.projects.cactus.el_kollia.feed.adapter.PostsAdapter;
-import com.projects.cactus.el_kollia.feed.adapter.QuestionsRecyclerAdapter;
-import com.projects.cactus.el_kollia.feed.presenter.FeedPresenter;
 import com.projects.cactus.el_kollia.model.Question;
 import com.projects.cactus.el_kollia.util.Util;
 import com.willowtreeapps.spruce.Spruce;
 import com.willowtreeapps.spruce.animation.DefaultAnimations;
-import com.willowtreeapps.spruce.sort.LinearSort;
 import com.willowtreeapps.spruce.sort.RadialSort;
 
 import java.util.ArrayList;
@@ -40,7 +35,7 @@ import java.util.List;
  * Created by el on 4/14/2017.
  */
 
-public class FeedFragment extends Fragment implements QuestionDialog.OnDialogButtonClick, FeedView, ButtonVoteListener {
+public class FeedFragment extends Fragment implements QuestionDialog.OnDialogButtonClick, FeedContract.View, ButtonVoteListener {
 
     FloatingActionButton addQuestion;
     SwipeRefreshLayout swipeRefreshLayout;
@@ -50,12 +45,10 @@ public class FeedFragment extends Fragment implements QuestionDialog.OnDialogBut
     RecyclerView recyclerView;
     ViewGroup parent;
     private String userId;
-    private Context activity;
 
     int viewHolderPosition = -1;
     private List<Question> questions = new ArrayList<>();
     private FeedPresenter feedPresenter;
-    private java.lang.Object attachingActivityLock = new Object();
     private Animator spruceAnimator;
 
 
@@ -68,8 +61,7 @@ public class FeedFragment extends Fragment implements QuestionDialog.OnDialogBut
         QuestionDialog questionDialog = new QuestionDialog();
         questionDialog.setTargetFragment(this, 0);
         prepareQuestions(view);
-        feedPresenter.getPosts();
-        Log.d(TAG, "onCreateView Iscalled");
+
 
         return view;
 
@@ -79,7 +71,7 @@ public class FeedFragment extends Fragment implements QuestionDialog.OnDialogBut
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        feedPresenter = new FeedPresenter(this);
+
     }
 
     void initializViews(View view) {
@@ -132,8 +124,8 @@ public class FeedFragment extends Fragment implements QuestionDialog.OnDialogBut
 
     }
 
-    private void openPostActivity(int qId) {
-
+    @Override
+    public void openPostActivity(int qId) {
         Intent intent = new Intent(getActivity(), PostActivity.class);
         intent.putExtra(Util.QUESTION_ID_EXRA, qId);
         startActivity(intent);
@@ -166,32 +158,40 @@ public class FeedFragment extends Fragment implements QuestionDialog.OnDialogBut
 
     }
 
+    private void post(String userId, String content) {
+
+    }
+
     @Override
     public void onClickCancel() {
 
     }
 
 
+    @Override
+    public void showUpvoteSuccess() {
+        //make the button green
+        if (viewHolderPosition != -1)
+            updateUpVoteBtn(viewHolderPosition);
+    }
 
     @Override
-    public void getAllPosts() {
+    public void showUpvoteFailure() {
 
     }
 
     @Override
-    public void post(String userId, String post) {
-        if (feedPresenter == null) {
-//            process();
-            if (this.activity == null)
-                Log.d(TAG, "getActivity returned null from feed fragment");
-            feedPresenter = new FeedPresenter(this);
+    public void showUpvoteFailure(String error) {
 
-        }
-        feedPresenter.post(userId, post);
     }
 
     @Override
-    public void onPostRetrievedSuccess(List<Question> posts) {
+    public void showUpvoteFailure(int ResId) {
+
+    }
+
+    @Override
+    public void showPosts(List<Question> posts) {
         questions = posts;
 
         questionsRecyclerAdapter = new PostsAdapter(getActivity(), questions, MainActivity.unique_id, this);
@@ -200,25 +200,13 @@ public class FeedFragment extends Fragment implements QuestionDialog.OnDialogBut
 
     }
 
-    @Override
-    public void onPostRetrievdFailure(String error) {
-        Snackbar.make(parent, error, Snackbar.LENGTH_SHORT).show();
-    }
 
-    @Override
-    public void tryUpVote(int questionId, String userId) {
-        Log.d(TAG,"user id : "+userId+"-------> question id : "+questionId );
-        feedPresenter.upvote(questionId, userId);
+//    public void tryUpVote(int questionId, String userId) {
+//        Log.d(TAG,"user id : "+userId+"-------> question id : "+questionId );
+//        feedPresenter.upvote(questionId, userId);
+//
+//    }
 
-    }
-
-    @Override
-    public void upvotedSuccess() {
-        //make the button green
-        if (viewHolderPosition != -1)
-            updateUpVoteBtn(viewHolderPosition);
-
-    }
 
     private void updateUpVoteBtn(int viewHolderPosition) {
 
@@ -244,32 +232,25 @@ public class FeedFragment extends Fragment implements QuestionDialog.OnDialogBut
     }
 
 
-    @Override
-    public void upvotedFailure(String error) {
-        //show upvote error
-
-    }
-
     //-------------------------called when button upvote is clicked ----delegated from the recyclerAdapter--QViewHolder
     @Override
     public void ButtonUpVoteOnClick(View v, int position) {
         viewHolderPosition = position;
-        //buttonUpvote = (Button) v;
         Question question = questions.get(position);
-        tryUpVote(question.getId(),question.getUser_id());
+
     }
 
 
     @Override
     public void onStop() {
         super.onStop();
-        if (questionsRecyclerAdapter!=null)
-        questionsRecyclerAdapter.clear();
+        if (questionsRecyclerAdapter != null)
+            questionsRecyclerAdapter.clear();
     }
 
 
     @Override
-    public void onAttach(Activity activity) {
+    public void onAttach(Context activity) {
         super.onAttach(activity);
 
         Log.d(TAG, "onAttach Iscalled ...activity --> " + activity);
@@ -277,7 +258,10 @@ public class FeedFragment extends Fragment implements QuestionDialog.OnDialogBut
     }
 
 
+    @Override
+    public void setPresenter(FeedContract.Presenter presenter) {
 
+    }
 
     @Override
     public void showLoading() {
@@ -286,6 +270,16 @@ public class FeedFragment extends Fragment implements QuestionDialog.OnDialogBut
 
     @Override
     public void hideLoading() {
+
+    }
+
+    @Override
+    public void showError() {
+
+    }
+
+    @Override
+    public void hideError() {
 
     }
 
@@ -305,7 +299,7 @@ public class FeedFragment extends Fragment implements QuestionDialog.OnDialogBut
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResumeIscalled");
-        if (spruceAnimator!=null)
+        if (spruceAnimator != null)
             spruceAnimator.start();
 
 

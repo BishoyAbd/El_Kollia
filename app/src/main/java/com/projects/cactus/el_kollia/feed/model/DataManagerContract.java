@@ -8,10 +8,14 @@ public interface DataManagerContract {
 
 
     void getPosts();
+
     void getSomePosts();
-    void post(String userId,String post);
-    boolean isUpVoted(String userId,String postId);
-    boolean upVote(int postId,String userId);
+
+    void post(String userId, String post);
+
+    boolean isUpVoted(String userId, String postId);
+
+    boolean upVote(int postId, String userId);
 
 
     String getUserId(String key);

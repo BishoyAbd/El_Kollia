@@ -8,9 +8,9 @@ import com.projects.cactus.el_kollia.ApiServices.QuestionLoader;
 import com.projects.cactus.el_kollia.ApiServices.QuestionPost;
 import com.projects.cactus.el_kollia.ApiServices.ServiceGenerator;
 import com.projects.cactus.el_kollia.ApiServices.VoteApi;
-import com.projects.cactus.el_kollia.feed.presenter.FeedContract;
-import com.projects.cactus.el_kollia.feed.presenter.FeedPresenter;
-import com.projects.cactus.el_kollia.feed.view.MainActivity;
+import com.projects.cactus.el_kollia.feed.FeedContract;
+import com.projects.cactus.el_kollia.feed.FeedPresenter;
+import com.projects.cactus.el_kollia.feed.MainActivity;
 import com.projects.cactus.el_kollia.model.Question;
 import com.projects.cactus.el_kollia.model.QuestionRequest;
 import com.projects.cactus.el_kollia.model.Respond;
@@ -28,7 +28,7 @@ import retrofit2.Response;
  * Created by el on 6/8/2017.
  */
 
-public class FeedDataManager implements DataManagerContract{
+public class FeedDataManager implements DataManagerContract {
 
 
     private static final String TAG = "DataManagerContract";
@@ -44,9 +44,9 @@ public class FeedDataManager implements DataManagerContract{
     public FeedDataManager(Context context, FeedPresenter feedPresenter) {
         this.context = context;
         this.feedPresenter = feedPresenter;
-        if (context==null)
-            Log.d(TAG,"context is null");
-           pref= context.getApplicationContext().getSharedPreferences(Util.LOG_PREF,Context.MODE_PRIVATE);
+        if (context == null)
+            Log.d(TAG, "context is null");
+        pref = context.getApplicationContext().getSharedPreferences(Util.LOG_PREF, Context.MODE_PRIVATE);
 
     }
 
@@ -61,17 +61,16 @@ public class FeedDataManager implements DataManagerContract{
         call.enqueue(new Callback<List<Question>>() {
             @Override
             public void onResponse(Call<List<Question>> call, Response<List<Question>> response) {
-                   feedPresenter.onPostRetrievedSuccess(response.body());
+                feedPresenter.onPostRetrievedSuccess(response.body());
 
             }
 
             @Override
             public void onFailure(Call<List<Question>> call, Throwable t) {
-                      feedPresenter.onPostRetrievedFailure(t.getLocalizedMessage());
-                         Log.d(TAG,t.getLocalizedMessage());
+                feedPresenter.onPostRetrievedFailure(t.getLocalizedMessage());
+                Log.d(TAG, t.getLocalizedMessage());
             }
         });
-
 
 
     }
@@ -82,7 +81,7 @@ public class FeedDataManager implements DataManagerContract{
 
     @Override
     public void post(String userId, String post) {
-        Question question=new Question();
+        Question question = new Question();
         question.setAcademic_year(0);
         question.setUser_id(MainActivity.getUnique_id());
         question.setCourse("java");
@@ -101,7 +100,7 @@ public class FeedDataManager implements DataManagerContract{
             public void onFailure(Call<Respond> call, Throwable t) {
             }
         });
-        }
+    }
 
     @Override
     public boolean isUpVoted(String userId, String postId) {
@@ -111,27 +110,27 @@ public class FeedDataManager implements DataManagerContract{
     @Override
     public boolean upVote(int questionId, String userId) {
 
-        Question question=new Question();
+        Question question = new Question();
         question.setUser_id(userId);
         question.setId(questionId);
 
-        VoteRequest voteRequest=new VoteRequest();
+        VoteRequest voteRequest = new VoteRequest();
         voteRequest.setQuestion(question);
         voteRequest.setCommand(VoteRequest.INCREASE_UP_VOTES);
         voteRequest.setCode("ss");
-        VoteApi questionPost=ServiceGenerator.createService(VoteApi.class);
-        Call<Respond> call=questionPost.upVote(voteRequest);
+        VoteApi questionPost = ServiceGenerator.createService(VoteApi.class);
+        Call<Respond> call = questionPost.upVote(voteRequest);
         call.enqueue(new Callback<Respond>() {
             @Override
             public void onResponse(Call<Respond> call, Response<Respond> response) {
-                Log.d(TAG,response.body().getMessage());
+                Log.d(TAG, response.body().getMessage());
                 feedPresenter.UpvotedSuccess();
             }
 
             @Override
             public void onFailure(Call<Respond> call, Throwable t) {
-     //           Log.d(TAG,t.getLocalizedMessage());
-                   feedPresenter.upvotedFailure(t.getLocalizedMessage());
+                //           Log.d(TAG,t.getLocalizedMessage());
+                feedPresenter.upvotedFailure(t.getLocalizedMessage());
             }
         });
 
@@ -141,13 +140,11 @@ public class FeedDataManager implements DataManagerContract{
 
     @Override
     public String getUserId(String key) {
-        String userId=pref.getString(key,Util.ERROR_ID_INVALIDE);
-        Log.d(TAG, "user_id from pref ---> "+userId);
+        String userId = pref.getString(key, Util.ERROR_ID_INVALIDE);
+        Log.d(TAG, "user_id from pref ---> " + userId);
         return userId;
     }
 }
-
-
 
 
 //to solve the upvote problem

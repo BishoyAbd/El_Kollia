@@ -1,15 +1,18 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "25.0.0"
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
     defaultConfig {
         applicationId "com.projects.cactus.el_kollia"
-        minSdkVersion 19
-        targetSdkVersion 24
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        android.compileOptions.sourceCompatibility 1.8
+        android.compileOptions.targetCompatibility 1.8
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -26,39 +29,109 @@ dependencies {
     })
 
 
+
+    testCompile 'junit:junit:4.12'
+
+    annotationProcessor 'org.parceler:parceler:1.1.6'
+
+    implementation 'javax.annotation:javax.annotation-api:1.2'
+    implementation "com.android.support.constraint:constraint-layout:$rootProject.constraintLayoutVersion"
+
+    compile 'com.github.florent37:diagonallayout:1.0.4'
+    /**
+     * support libs
+     */
+    implementation "com.android.support:support-annotations:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:cardview-v7:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:design:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
+
+    /**
+     *    Resolve conflicts between main and test APK:
+     */
+    implementation "com.android.support:support-annotations:$rootProject.supportLibraryVersion"
+    androidTestCompile "com.android.support:support-v4:$rootProject.supportLibraryVersion"
+    androidTestCompile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
+    androidTestCompile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
+    androidTestCompile "com.android.support:design:$rootProject.supportLibraryVersion"
+
+
+
+
+    /**
+     *     butter Knife
+     */
+    implementation "com.jakewharton:butterknife:$rootProject.butterKnifeVersion"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.butterKnifeVersion"
+
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'de.hdodenhof:circleimageview:2.2.0'
+
+    compile 'com.twotoasters.jazzylistview:library-recyclerview:1.2.1'
+    compile 'com.twotoasters.jazzylistview:library:1.2.1'
+
+
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.daimajia.slider:library:1.1.5@aar'
+    compile 'javax.annotation:javax.annotation-api:1.2'
+    /**
+     * rxjava2 and retrofit
+     **/
+
+    /**
+     * networking
+     */
+
+    implementation "io.reactivex.rxjava2:rxjava:$rootProject.rxjavaVersion"
+    implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rxandroidVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofit2Vesrsion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.okhttp3rVersion"
+    implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofit2Vesrsion"
+    implementation "com.squareup.retrofit2:adapter-rxjava:$rootProject.retrofit2Vesrsion"
+    implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
+    implementation "com.google.code.gson:gson:$rootProject.GsonVersion"
+    implementation "com.squareup.picasso:picasso:$rootProject.picassoVersion"
+
+
+
+    //sqlbite 2
+    //implementation 'com.squareup.sqlbrite2:sqlbrite:2.0.0'
+
+    //implementation 'com.android.support:multidex:1.0.1'
+
+    /*
+    binding libraries
+     */
+    compile "com.jakewharton.rxbinding2:rxbinding:$rootProject.rxJavaBinding2"
+    //compile "com.jakewharton.rxbinding2:rxbinding-support-v4:$rootProject.rxJavaBinding2"
+    //compile "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$rootProject.rxJavaBinding2"
+    // compile "com.jakewharton.rxbinding2:rxbinding-design:$rootProject.rxJavaBinding2"
+    // compile "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7:$rootProject.rxJavaBinding2"
+
+    /*
+    other rx libraries
+     */
+    compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
+    compile 'com.trello.rxlifecycle2:rxlifecycle:2.0.1'
+    compile 'com.trello.rxlifecycle2:rxlifecycle-android:2.0.1'
+
+
+    compile 'andhradroid.dev:aFilechooser:1.0.1'
+    compile 'org.parceler:parceler-api:1.1.6'
+
+    compile 'com.willowtreeapps.spruce:spruce-android:1.0.0'
+
+    /*
+     *  timber
+     */
+    compile 'com.jakewharton.timber:timber:4.5.1'
+
+
+//
     compile('com.sangcomz:FishBun:0.6.2@aar') {
         transitive = true
     }
-
-
-
-
-
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    compile 'com.android.support:design:24.2.1'
-    compile 'com.android.support:cardview-v7:24.2.1'
-    compile 'com.android.support:recyclerview-v7:24.2.1'
-    compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'de.hdodenhof:circleimageview:2.2.0'
-    compile 'com.twotoasters.jazzylistview:library-recyclerview:1.2.1'
-    compile 'com.twotoasters.jazzylistview:library:1.2.1'
-    compile 'com.android.support:support-v4:24.2.1'
-    compile 'com.squareup.picasso:picasso:2.3.2'
-    compile 'com.nineoldandroids:library:2.4.0'
-    compile 'com.daimajia.slider:library:1.1.5@aar'
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.3.1'
-    compile 'andhradroid.dev:aFilechooser:1.0.1'
-    compile 'org.parceler:parceler-api:1.1.6'
-    compile 'com.willowtreeapps.spruce:spruce-android:1.0.0'
-    testCompile 'junit:junit:4.12'
-    annotationProcessor 'org.parceler:parceler:1.1.6'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.jakewharton:butterknife:8.6.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
-    compile 'com.github.florent37:diagonallayout:1.0.4'
-
 
 
 }

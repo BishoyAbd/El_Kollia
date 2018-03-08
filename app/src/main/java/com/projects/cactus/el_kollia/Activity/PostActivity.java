@@ -13,7 +13,7 @@ import com.projects.cactus.el_kollia.ApiServices.AnswerLoaderApi;
 import com.projects.cactus.el_kollia.ApiServices.ServiceGenerator;
 import com.projects.cactus.el_kollia.R;
 import com.projects.cactus.el_kollia.adapters.AnswerRecyclerAdapter;
-import com.projects.cactus.el_kollia.feed.view.QuestionDialog;
+import com.projects.cactus.el_kollia.feed.QuestionDialog;
 import com.projects.cactus.el_kollia.model.Answer;
 import com.projects.cactus.el_kollia.model.Question;
 import com.projects.cactus.el_kollia.util.Util;

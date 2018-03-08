@@ -22,9 +22,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.projects.cactus.el_kollia.R;
 import com.projects.cactus.el_kollia.feed.adapter.PostsAdapter;
-import com.projects.cactus.el_kollia.feed.presenter.FeedPresenter;
-import com.projects.cactus.el_kollia.feed.view.FeedView;
-import com.projects.cactus.el_kollia.feed.view.MainActivity;
+import com.projects.cactus.el_kollia.feed.FeedPresenter;
+import com.projects.cactus.el_kollia.feed.FeedView;
+import com.projects.cactus.el_kollia.feed.MainActivity;
 import com.projects.cactus.el_kollia.model.Question;
 import com.projects.cactus.el_kollia.model.User;
 import com.projects.cactus.el_kollia.profile.presenter.ProfilePresenter;
@@ -198,7 +198,7 @@ public class ProfileFragment extends Fragment implements ProfileView, FeedView {
     }
 
     @Override
-    public void onPostRetrievedSuccess(List<Question> posts) {
+    public void showPosts(List<Question> posts) {
         onUserPostsRetrievedSuccessfully(posts);
     }
 
