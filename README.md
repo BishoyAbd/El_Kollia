@@ -1,5 +1,4 @@
 # El_Kollia
 
-The project was refactored to MVP pattern and Java design pattern 
+The project was refactored to MVP pattern
 
-this project is the best pracice for using MVP in android 
