@@ -14,12 +14,24 @@ This will contain:
 and many wonderful features.
 
 
+## project archticture  :
+MVP model view presenter with native dependency injection.
+
+## Technologies used :
+
+* RxJava2 and RxAndroid .
+* SqlBrite as a wrapper to SqlHelper.
+* Dependency injection using dagger2 .
+* Retrofit2 and OkHttp .
+* Picasso .
+* ButterKnife .
+* Gson.
+
+
+
 # NOTE
 
-the project is feature base although it's not complete yet,but the allfearures are well decoupled ,reusable and encapsulated.it's a good example to understand the android MVP architecture.
+the project is screen-based although it's not complete yet,but the allfearures are well decoupled ,reusable and encapsulated.it's a good example to understand the android MVP architecture.
 
-
-# LATER ON
-the project will be refactored to android clean architecture and I will split the modules and behaviours to many library projects
 
 
