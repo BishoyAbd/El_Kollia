@@ -29,6 +29,7 @@ public interface SignUpContract {
 
 
     interface Presenter {
+
         void signUp(User user);
 
         void subscribe(SignUpView view);

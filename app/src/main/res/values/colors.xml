@@ -15,5 +15,6 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="white_greyish">#EEEEEE</color>
+    <color name="bgBottomNavigation">#fe485a</color>
 
 </resources>

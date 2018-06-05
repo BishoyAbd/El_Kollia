@@ -2,10 +2,10 @@ package com.projects.cactus.el_kollia.model;
 
 /**
  * Created by Bishoy on 2/28/2017.
+ * ..
  */
 
 public class User {
-
 
 
     private String name;
@@ -13,8 +13,8 @@ public class User {
     private String unique_id;
     private String phone_number;  //optional
     private String password;
-  //  private String old_password;
-   // private String new_password;
+    //  private String old_password;
+    // private String new_password;
     private String academic_year; //1 2 3 4 5
     private String department;  //control,cs,communication
     private int classification; //1 stuff--0 student
@@ -24,7 +24,7 @@ public class User {
     private String bio;
 
 
-    public User(){
+    public User() {
 
 
     }
@@ -32,7 +32,7 @@ public class User {
     public User(String name, String email, String unique_id,
                 String phone_number, String password, String academic_year,
                 String department, int classification,
-    String profile_url,String cover_url)  {
+                String profile_url, String cover_url) {
 
         this.setName(name);
         this.setEmail(email);
@@ -123,8 +123,9 @@ public class User {
     public String getConfirmPassword() {
         return confirmPassword;
     }
+
     public void setConfirmPassword(String confirmPassword) {
-         this.confirmPassword=confirmPassword;
+        this.confirmPassword = confirmPassword;
     }
 
     public String getProfile_url() {

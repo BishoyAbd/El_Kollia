@@ -2,24 +2,30 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
     defaultConfig {
         applicationId "com.projects.cactus.el_kollia"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
+        versionCode 19
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         android.compileOptions.sourceCompatibility 1.8
         android.compileOptions.targetCompatibility 1.8
-        vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true    }
+
+    packagingOptions {
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+        exclude 'META-INF/rxjava.properties'
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    buildToolsVersion '27.0.3'
 }
 
 dependencies {
@@ -31,6 +37,7 @@ dependencies {
 
 
     testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:2.6.8'
 
     annotationProcessor 'org.parceler:parceler:1.1.6'
 
@@ -55,9 +62,6 @@ dependencies {
     androidTestCompile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
     androidTestCompile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
     androidTestCompile "com.android.support:design:$rootProject.supportLibraryVersion"
-
-
-
 
     /**
      *     butter Knife
@@ -93,8 +97,9 @@ dependencies {
     implementation "com.google.code.gson:gson:$rootProject.GsonVersion"
     implementation "com.squareup.picasso:picasso:$rootProject.picassoVersion"
 
-
-
+    //butter knife
+    implementation "com.jakewharton:butterknife:$rootProject.butterKnifeVersion"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.butterKnifeVersion"
     //sqlbite 2
     //implementation 'com.squareup.sqlbrite2:sqlbrite:2.0.0'
 
@@ -127,11 +132,22 @@ dependencies {
      */
     compile 'com.jakewharton.timber:timber:4.5.1'
 
-
 //
     compile('com.sangcomz:FishBun:0.6.2@aar') {
         transitive = true
     }
 
+    // Dependency Injection
+    annotationProcessor "com.google.dagger:dagger-compiler:${daggerVersion}"
+    implementation "com.google.dagger:dagger:${daggerVersion}"
+    compileOnly 'javax.annotation:jsr250-api:1.0'
+
+
+
+    implementation 'com.android.support:multidex:1.0.1'
+    /**
+     * flow layout
+     */
+    compile 'com.nex3z:flow-layout:1.2.2'
 
 }

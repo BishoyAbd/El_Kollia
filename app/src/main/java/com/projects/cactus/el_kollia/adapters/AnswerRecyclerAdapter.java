@@ -44,7 +44,7 @@ public class AnswerRecyclerAdapter extends RecyclerView.Adapter<AnswerRecyclerAd
         Answer answer = answerList.get(position);
         Log.d(TAG,"answer insid onBind --->answer(0).answer---->"+answerList.get(position).getAnswer());
          //Glide.with(context).load(answer.getProfile_url()).centerCrop().into( holder.answerOwnerImageView);
-         //holder.answerOwnerTv.setText(answer.getUser_id());
+         //holder.answerOwnerTv.setText(answer.getAskedBy());
          holder.dateTv.setText(answer.getDate()+"");
          holder.answerTv.setText(answer.getAnswer()+"");
     }

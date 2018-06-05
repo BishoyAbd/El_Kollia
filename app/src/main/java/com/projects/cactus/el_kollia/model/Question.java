@@ -1,5 +1,9 @@
 package com.projects.cactus.el_kollia.model;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
 /**
  * Created by el on 4/18/2017.
  */
@@ -7,12 +11,12 @@ package com.projects.cactus.el_kollia.model;
 public class Question {
 
     //  private int question_id;
-    private int id;
+    private String id;
     private String question;
-    private String user_id; //question poster id
+    @SerializedName("askedBy")
+    private String askedBy; //question poster id
     private String course;
     private String date;
-    private String question_id;
     private String user_profile;
     private int academic_year;
     private String department;
@@ -21,36 +25,37 @@ public class Question {
     private int down_votes;
     private int num_of_comments;
     private String likes;
+    private List<TAG> tags;
+    @SerializedName("is_liked") //is liked by this user or not , used to change the like btn state
+    private boolean isLiked;
 
 
-
-
-    public Question(String question, String user_id, String course, String date,
-                    String question_id, String user_profile_photo, int academic_year,
-                    String user_name, String department, String likes) {
+    public Question(String question, String askedBy, String course, String date,
+                    String user_profile_photo, int academic_year,
+                    String user_name, String department, String likes, List<TAG> tags) {
         this.question = question;
-        this.user_id = user_id;
+        this.askedBy = askedBy;
         this.course = course;
         this.date = date;
-        this.question_id = question_id;
         this.user_profile = user_profile_photo;
         this.academic_year = academic_year;
-        this.user_name=user_name;
-        this.department=department;
-        this.likes=likes;
+        this.user_name = user_name;
+        this.department = department;
+        this.likes = likes;
+        this.tags = tags;
     }
 
-    public  Question(){
+    public Question() {
 
     }
 
-//    public int getQuestion_id() {
-//        return question_id;
-//    }
-//
-//    public void setQuestion_id(int question_id) {
-//        this.question_id = question_id;
-//    }
+
+    public Question(String userId, String question, String date, boolean isLiked) {
+        this.askedBy = userId;
+        this.question = question;
+        this.date = date;
+        this.isLiked = isLiked;
+    }
 
     public String getQuestion() {
         return question;
@@ -60,12 +65,12 @@ public class Question {
         this.question = question;
     }
 
-    public String getUser_id() {
-        return user_id;
+    public String getAskedBy() {
+        return askedBy;
     }
 
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
+    public void setAskedBy(String askedBy) {
+        this.askedBy = askedBy;
     }
 
     public String getCourse() {
@@ -90,14 +95,6 @@ public class Question {
 
     public void setDate(String date) {
         this.date = date;
-    }
-
-    public String getQuestion_id() {
-        return question_id;
-    }
-
-    public void setQuestion_id(String question_id) {
-        this.question_id = question_id;
     }
 
     public String getUser_profile_photo() {
@@ -156,11 +153,112 @@ public class Question {
         this.likes = likesIds;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public List<TAG> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<TAG> tags) {
+        this.tags = tags;
+    }
+
+    public boolean IsLiked() {
+        return isLiked;
+    }
+
+    public void setIsLiked(boolean isLiked) {
+        this.isLiked = isLiked;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Question{" +
+                "id=" + id +
+                ", askedBy='" + askedBy + '\'' +
+                ", date='" + date + '\'' +
+                ", likes='" + likes + '\'' +
+                ", isLiked=" + isLiked +
+                '}';
+    }
+
+
+    static class Builder {
+
+
+        //_id
+        private String id;
+        private String question;
+        private String askedBy; //question poster id
+        private String subjectId;
+        private String date;
+        private String profilePhoto;
+        private int academicYear;
+        private String department;
+        private String userName;
+        private String visibleName;
+        private int up_votes;
+        private int down_votes;
+        private int num_of_comments;
+        private String likes;
+        private List<TAG> tags;
+        @SerializedName("is_liked")
+        //is liked by this user or not , used to change the like btn state
+        private boolean isLiked;
+
+
+        public Builder() {
+        }
+
+
+        Builder question(String question) {
+            this.question = question;
+            return this;
+        }
+
+
+        Builder askedBy(String user_id) {
+            this.askedBy = user_id;
+            return this;
+        }
+
+        Builder date(String date) {
+            this.date = date;
+            return this;
+        }
+
+        Builder profilePhoto(String profilePhoto) {
+            this.profilePhoto = profilePhoto;
+            return this;
+        }
+
+        Builder academicYear(int academicYear) {
+            this.academicYear = academicYear;
+            return this;
+        }
+
+        Builder department(String department) {
+            this.department = department;
+            return this;
+        }
+
+        Builder userName(String userName) {
+            this.userName = userName;
+            return this;
+        }
+
+        Builder visibleName(String visibleName) {
+            this.visibleName = visibleName;
+            return this;
+        }
+
+
     }
 }

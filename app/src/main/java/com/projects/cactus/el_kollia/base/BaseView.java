@@ -7,9 +7,13 @@ package com.projects.cactus.el_kollia.base;
 public interface BaseView<T> {
 
     void setPresenter(T presenter);
+
     void showLoading();
+
     void hideLoading();
+
     void showError();
+
     void hideError();
 
 

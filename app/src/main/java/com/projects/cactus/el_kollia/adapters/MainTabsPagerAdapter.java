@@ -1,17 +1,10 @@
 package com.projects.cactus.el_kollia.adapters;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.ContextCompat;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.ImageSpan;
-
-import com.projects.cactus.el_kollia.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,33 +13,40 @@ import java.util.List;
  * Created by el on 4/15/2017.
  */
 public class MainTabsPagerAdapter extends FragmentPagerAdapter {
-    List<Fragment> pages;
-    private List<String> titles;
-    Context ctx;
 
-    //int resId[]={R.drawable.feed,R.drawable.other,R.drawable.profile};
+    private List<Fragment> pages;
+    private List<String> titles;
+    private Context ctx;
+
 
     public MainTabsPagerAdapter(FragmentManager fm, Context context, List<Fragment> pages, List<String> titles) {
         super(fm);
         this.pages = pages;
         this.titles = titles;
-        this.ctx=context;
+        this.ctx = context;
     }
 
-    public MainTabsPagerAdapter(FragmentManager fm,Context context) {
+    public MainTabsPagerAdapter(FragmentManager fm, Context context) {
 
         super(fm);
         pages = new ArrayList<>();
         titles = new ArrayList<>();
-        this.ctx=context;
+        this.ctx = context;
 
     }
+
 
     public void addFragment(Fragment newFrag, String newTitle) {
         pages.add(newFrag);
         titles.add(newTitle);
     }
 
+
+    @Nullable
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return titles.get(position);
+    }
 
     @Override
     public Fragment getItem(int position) {

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/profilePhoto_iv"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/profile_bisho" />
+
+    <TextView
+        android:id="@+id/userName_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:text="Bishoy Abd"
+        android:theme="@style/UserNameTextView"
+        app:layout_constraintStart_toEndOf="@+id/profilePhoto_iv"
+        app:layout_constraintTop_toTopOf="@+id/profilePhoto_iv" />
+
+    <TextView
+        android:id="@+id/answerDate_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="12/4 2:87"
+        android:theme="@style/TextDate"
+        app:layout_constraintEnd_toEndOf="@+id/userName_tv"
+        app:layout_constraintStart_toStartOf="@+id/userName_tv"
+        app:layout_constraintTop_toBottomOf="@+id/userName_tv" />
+
+    <TextView
+        android:id="@+id/answer_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="answer answer answer answer answer answer"
+        app:layout_constraintStart_toStartOf="@+id/profilePhoto_iv"
+        app:layout_constraintTop_toBottomOf="@id/profilePhoto_iv" />
+
+    <ImageButton
+        android:id="@+id/answerUpvoteBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/textView5"
+        app:layout_constraintEnd_toEndOf="@+id/textView5"
+        app:layout_constraintStart_toStartOf="@+id/textView5"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/arrow_up_float" />
+
+    <ImageButton
+        android:id="@+id/answerdownBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/answer_tv"
+        app:layout_constraintEnd_toEndOf="@+id/textView5"
+        app:layout_constraintStart_toStartOf="@+id/textView5"
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        app:srcCompat="@android:drawable/arrow_down_float" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1000"
+        app:layout_constraintBottom_toTopOf="@+id/answerdownBtn"
+        app:layout_constraintEnd_toEndOf="@+id/answerUpvoteBtn"
+        app:layout_constraintStart_toStartOf="@+id/answerUpvoteBtn"
+        app:layout_constraintTop_toBottomOf="@+id/answerUpvoteBtn" />
+
+</android.support.constraint.ConstraintLayout>

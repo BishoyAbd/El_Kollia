@@ -1,6 +1,6 @@
 package com.projects.cactus.el_kollia.ApiServices;
 
-import com.projects.cactus.el_kollia.model.Respond;
+import com.projects.cactus.el_kollia.model.ServerResponse;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -17,7 +17,7 @@ public interface UploadingService {
 
     @Multipart
     @POST("elkollya/update_pic.php")
-    Call<Respond> upload(@Part MultipartBody.Part image,
-                         @Part("user_id") RequestBody userId,
-                         @Part("code") RequestBody product_type); //code =profile for uploading profile pic and code = cover for uploading cover
+    Call<ServerResponse> upload(@Part MultipartBody.Part image,
+                                @Part("user_id") RequestBody userId,
+                                @Part("code") RequestBody product_type); //code =profile for uploading profile pic and code = cover for uploading cover
 }

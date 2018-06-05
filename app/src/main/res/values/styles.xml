@@ -28,13 +28,22 @@
 
 
     </style>
+
     <style name="AppTheme.NoActionBar" parent="AppTheme">
-        <item name="windowActionBar"> false</item>
+        <item name="windowActionBar">false</item>
     </style>
 
+    <style name="UserNameTextView" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/sky_color</item>
+    </style>
+
+    <style name="TextDate" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textSize">10sp</item>
+    </style>
 
     <!--<style name="customTabTextAppearence" parent="Base.TextAppearance.AppCompat.Headline">-->
-        <!--<item name="textAllCaps">false</item>-->
+    <!--<item name="textAllCaps">false</item>-->
 
     <!--</style>-->
 

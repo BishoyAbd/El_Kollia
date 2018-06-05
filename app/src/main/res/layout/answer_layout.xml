@@ -1,88 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/content_main"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/content_main"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        >
+        android:layout_height="match_parent">
 
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-
-
-            <ImageView
-                android:id="@+id/profile_answer_id_imageView"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:src="@drawable/profile_bisho"
-                />
-
-
-            <TextView
-                android:id="@+id/answer_owner_name_tv_id"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/profile_answer_id_imageView"
-                android:layout_marginStart="10dp"
-                android:layout_toEndOf="@+id/profile_answer_id_imageView"
-                android:text="Bishoy Abd Lamey"
-                android:textColor="#000000"
-                android:textSize="15sp"
-
-                />
-
-            <TextView
-                android:id="@+id/answer_date_tv_id"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_below="@id/answer_owner_name_tv_id"
-                android:layout_toEndOf="@+id/profile_answer_id_imageView"
-                android:text="14:12|12.10.2016"
-                android:textSize="10sp"
-
-                />
-
-
-        </RelativeLayout>
-
+        <ImageView
+            android:id="@+id/profile_answer_id_imageView"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/profile_bisho" />
 
 
         <TextView
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="10dp"
-            android:id="@+id/textView_answer_content_id"
+            android:id="@+id/answer_owner_name_tv_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/text_post_test"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-
-
-
-            />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/white_greyish"
-            android:layout_marginBottom="9dp"
+            android:layout_alignTop="@+id/profile_answer_id_imageView"
             android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
+            android:layout_toEndOf="@+id/profile_answer_id_imageView"
+            android:text="Bishoy Abd Lamey"
+            android:textColor="#000000"
+            android:textSize="15sp"
+
+            />
+
+        <TextView
+            android:id="@+id/answer_date_tv_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/answer_owner_name_tv_id"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/profile_answer_id_imageView"
+            android:text="14:12|12.10.2016"
+            android:textSize="10sp"
+
             />
 
 
+    </RelativeLayout>
 
 
+    <TextView
+        android:id="@+id/textView_answer_content_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/text_post_test"
 
 
+        />
 
-    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="9dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:background="@color/white_greyish" />
+
+
+</LinearLayout>

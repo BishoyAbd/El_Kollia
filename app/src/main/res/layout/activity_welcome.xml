@@ -1,61 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/frag_container"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-   >
+    >
 
 
+    <RelativeLayout
 
-
-<RelativeLayout
-
-    android:id="@+id/activity_welcome"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/login_background"
-   >
-
-    <Button
-        android:layout_above="@+id/already_user_btn_id"
-        android:id="@+id/create_account_btn_id"
-        android:text="create new account"
-        android:textColor="#fff"
+        android:id="@+id/activity_welcome"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/edit_text_credentials"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/button_login"/>
+        android:layout_height="match_parent"
+        android:background="@drawable/login_background">
 
-    <Button
-        android:layout_alignParentBottom="true"
-        android:id="@+id/already_user_btn_id"
-        android:text="already member"
-        android:textColor="#fff"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_width="match_parent"
-       android:layout_height="@dimen/edit_text_credentials"
-       android:background="@drawable/button_login"
-        android:layout_marginBottom="100dp"
-       />
+        <Button
+            android:id="@+id/create_account_btn_id"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edit_text_credentials"
+            android:layout_above="@+id/already_user_btn_id"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/button_login"
+            android:text="create new account"
+            android:textColor="#fff" />
 
-    <ImageView
+        <Button
+            android:id="@+id/already_user_btn_id"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edit_text_credentials"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="100dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/button_login"
+            android:text="already member"
+            android:textColor="#fff" />
 
-        android:background="@drawable/logowhite"
-        android:layout_gravity="center"
-        android:baselineAlignBottom="true"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:id="@+id/imageView"
-        android:layout_above="@+id/already_user_btn_id"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="151dp" />
+        <ImageView
+
+            android:id="@+id/imageView"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_above="@+id/already_user_btn_id"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="151dp"
+            android:background="@drawable/logowhite"
+            android:baselineAlignBottom="true" />
 
 
-</RelativeLayout>
+    </RelativeLayout>
 </FrameLayout>

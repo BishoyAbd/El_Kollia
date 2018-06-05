@@ -66,20 +66,20 @@ public class LoginPresenter implements LoginContract.Presenter {
     }
 
     private void process(ServerResponse serverResponse) {
-        loginView.hideLoading(); //reset button inside it
-        loginView.enableInput(true);
-        Timber.d("button was reset to it's first state");
-        loginView.hideError();
-        //if no error from server
-        if (!Boolean.parseBoolean(serverResponse.getError())) {
-            loginView.onLoginSuccess(serverResponse.getUser());
-
-        }
-
-        //error from server ... either a prloblem or user doesnot exist
-        else
-            loginView.showMessage(serverResponse.getMessage());
-
+//        loginView.hideLoading(); //reset button inside it
+//        loginView.enableInput(true);
+//        Timber.d("button was reset to it's first state");
+//        loginView.hideError();
+//        //if no error from server
+//        if (!Boolean.parseBoolean(serverResponse.getError())) {
+//            loginView.onLoginSuccess(serverResponse.getUser());
+//
+//        }
+//
+//        //error from server ... either a prloblem or user doesnot exist
+//        else
+//            loginView.showMessage(serverResponse.getMessage());
+//
 
     }
 

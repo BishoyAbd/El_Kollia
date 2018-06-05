@@ -66,18 +66,18 @@ public class SignUpPresenter implements SignUpContract.Presenter {
 
 
     private void process(ServerResponse serverResponse) {
-        //error =false ----- response will contain a user and a message
-        //error =true  -------response will contain only message to indicate what happened
-        if (!Boolean.parseBoolean(serverResponse.getError())) {
-            signUpView.hideError();
-            signUpView.hideLoading();
-            signUpView.onSignUpSuccess(serverResponse.getUser());
-            Timber.d("message recieved with no error from server---> " + serverResponse.getMessage());
-        }
-        //error sent from server
-        else
-            signUpView.showMessage(serverResponse.getMessage());
-        Timber.d("message recieved with error from server---> " + serverResponse.getMessage());
+//        //error =false ----- response will contain a user and a message
+//        //error =true  -------response will contain only message to indicate what happened
+//        if (!Boolean.parseBoolean(serverResponse.getError())) {
+//            signUpView.hideError();
+//            signUpView.hideLoading();
+//            signUpView.onSignUpSuccess(serverResponse.getUser());
+//            Timber.d("message recieved with no error from server---> " + serverResponse.getMessage());
+//        }
+//        //error sent from server
+//        else
+//            signUpView.showMessage(serverResponse.getMessage());
+//        Timber.d("message recieved with error from server---> " + serverResponse.getMessage());
 
 
     }

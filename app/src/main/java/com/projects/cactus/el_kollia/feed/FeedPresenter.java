@@ -1,9 +1,19 @@
 package com.projects.cactus.el_kollia.feed;
 
-import com.projects.cactus.el_kollia.data.DataManager;
-import com.projects.cactus.el_kollia.feed.model.FeedDataManager;
+import com.projects.cactus.el_kollia.model.Question;
+import com.projects.cactus.el_kollia.model.QuestionRequest;
+import com.projects.cactus.el_kollia.util.rx.SchedulerProvider;
 
+import java.util.List;
+
+import javax.inject.Inject;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 /**
  * Created by el on 6/8/2017.
@@ -11,52 +21,77 @@ import io.reactivex.disposables.CompositeDisposable;
 
 public class FeedPresenter implements FeedContract.Presenter {
 
-    private final DataManager dataManager;
     private FeedContract.View feedView;
-    private FeedDataManager feedDataManager;
-    private CompositeDisposable compositeDisposable;
+    private FeedInteractor feedInteractor;
+    private SchedulerProvider schedulerProvider;
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-
-    public FeedPresenter(DataManager dataManager, CompositeDisposable compositeDisposable) {
-        this.dataManager = dataManager;
-        this.compositeDisposable = compositeDisposable;
+    @Inject
+    public FeedPresenter(FeedInteractor feedInteractor, SchedulerProvider schedulerProvider) {
+        this.feedInteractor = feedInteractor;
+        this.schedulerProvider = schedulerProvider;
     }
 
 
     @Override
-    public void getPosts(String userId) {
+    public void getPosts(QuestionRequest questionRequest) {
+        compositeDisposable.clear();
+        feedView.showLoading();
+        Disposable disposable = feedInteractor.getPosts(questionRequest)
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
+                .subscribeWith(new DisposableObserver<List<Question>>() {
+                    @Override
+                    public void onNext(List<Question> questions) {
+                        feedView.hideLoading();
+                        feedView.hideError();
+                        Timber.d("questions ---> " + questions.toString());
+                        feedView.showPosts(questions);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        feedView.showError();
+                        Timber.d("error getting questions!");
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
+
+        compositeDisposable.add(disposable);
+    }
+
+
+    @Override
+    public void post(QuestionRequest questionRequest) {
+        feedInteractor.post(questionRequest);
+    }
+
+    @Override
+    public void find(String string) {
+        //either search in the cloud or just filter current questions
+        feedView.showFilteredData(string);
 
     }
 
     @Override
-    public void post(String userId, String post) {
-        feedDataManager.post(userId, post);
-    }
-
-    @Override
-    public void refresh() {
-
+    public void filter(String s) {
+        feedView.showFilteredData(s);
     }
 
 
     @Override
-    public void upvote(int questioId, String userId) {
-        feedDataManager.upVote(questioId, userId);
-
-    }
-
-
-    public String getUserId(String key) {
-        return feedDataManager.getUserId(key);
-    }
-
-    @Override
-    public void subscribe(FeedContract.View View) {
-        this.feedView = feedView;
+    public void subscribe(FeedContract.View view) {
+        this.feedView = view;
     }
 
     @Override
     public void unsubscribe() {
+        compositeDisposable.clear();
 
     }
 }

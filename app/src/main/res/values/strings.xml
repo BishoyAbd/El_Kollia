@@ -25,7 +25,19 @@
         love musicI love musicI love musicI love musicI love
         musicI love musicI love musicI love musicI love musicI love musicI
         love musicI love musicI love musicI love musicI love musicI love musicI
-        love musicI love musicI love musicI love musicI love music music</string>
+        love musicI love musicI love musicI love musicI love  music</string>
     <string name="title_activity_post">Post Activity</string>
+
     <string name="description">electronic engineer</string>
+
+
+    <!--for navigation items-->
+    <string name="title_home">Home</string>
+    <string name="title_notification">Notification</string>
+    <string name="title_profile">Profile</string>
+    <string name="search">search</string>
+    <string name="error">Error !</string>
+    <string name="retry">Retry</string>
+    <string name="it_s_always_good_to_ask">it\'s always good to ask </string>
+
 </resources>

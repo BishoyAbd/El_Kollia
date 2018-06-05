@@ -20,11 +20,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.projects.cactus.el_kollia.Activity.MainActivity;
 import com.projects.cactus.el_kollia.R;
-import com.projects.cactus.el_kollia.feed.adapter.PostsAdapter;
+import com.projects.cactus.el_kollia.feed.FeedContract;
 import com.projects.cactus.el_kollia.feed.FeedPresenter;
-import com.projects.cactus.el_kollia.feed.FeedView;
-import com.projects.cactus.el_kollia.feed.MainActivity;
 import com.projects.cactus.el_kollia.model.Question;
 import com.projects.cactus.el_kollia.model.User;
 import com.projects.cactus.el_kollia.profile.presenter.ProfilePresenter;
@@ -43,7 +42,7 @@ import static android.app.Activity.RESULT_OK;
  * Created by el on 4/15/2017.
  */
 
-public class ProfileFragment extends Fragment implements ProfileView, FeedView {
+public class ProfileFragment extends Fragment implements ProfileView, FeedContract.View {
 
 
     private static final String TAG = "ProfileFragment";
@@ -72,8 +71,8 @@ public class ProfileFragment extends Fragment implements ProfileView, FeedView {
         view = v;
         initializeView(v);
         profilePresenter = new ProfilePresenter(getActivity(), this);
-        feedPresenter = new FeedPresenter(this);
-        getProfileData(MainActivity.getUnique_id());
+        // feedPresenter = new FeedPresenter(this);
+      //  getProfileData(MainActivity.getUnique_id());
         // getUserPosts(MainActivity.getUnique_id());
 
 
@@ -158,8 +157,7 @@ public class ProfileFragment extends Fragment implements ProfileView, FeedView {
     @Override
     public void onUserPostsRetrievedSuccessfully(List<Question> questions) {
 
-        questionsRecyclerAdapter = new PostsAdapter(getActivity(), questions, MainActivity.getUnique_id(), null);
-        userPostRecyclerView.setAdapter(questionsRecyclerAdapter);
+
     }
 
     @Override
@@ -170,6 +168,11 @@ public class ProfileFragment extends Fragment implements ProfileView, FeedView {
     @Override
     public void logout() {
         profilePresenter.logout();
+    }
+
+    @Override
+    public void setPresenter(FeedContract.Presenter presenter) {
+
     }
 
     @Override
@@ -188,14 +191,15 @@ public class ProfileFragment extends Fragment implements ProfileView, FeedView {
     }
 
     @Override
-    public void getAllPosts() {
+    public void showError() {
 
     }
 
     @Override
-    public void post(String userId, String post) {
+    public void hideError() {
 
     }
+
 
     @Override
     public void showPosts(List<Question> posts) {
@@ -203,24 +207,25 @@ public class ProfileFragment extends Fragment implements ProfileView, FeedView {
     }
 
     @Override
-    public void onPostRetrievdFailure(String error) {
+    public void setupTags(List<com.projects.cactus.el_kollia.model.TAG> tags) {
 
     }
 
     @Override
-    public void tryUpVote(int questionId, String userId) {
+    public void openPostActivity(int qId) {
 
     }
 
     @Override
-    public void upvotedSuccess() {
+    public void showFilteredData(String string) {
 
     }
 
     @Override
-    public void upvotedFailure(String error) {
+    public void onClickRetry() {
 
     }
+
 
     @Override
     public void changeUserData(User user) {
@@ -279,7 +284,7 @@ public class ProfileFragment extends Fragment implements ProfileView, FeedView {
             case Define.ALBUM_REQUEST_CODE:
                 if (resultCode == RESULT_OK) {
                     path = imageData.getParcelableArrayListExtra(Define.INTENT_PATH);
-                    profilePresenter.changeUserPhoto(MainActivity.getUnique_id(), "profile", path.get(0));
+               //     profilePresenter.changeUserPhoto(MainActivity.getUnique_id(), "profile", path.get(0));
                     break;
                 }
         }

@@ -2,13 +2,8 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-    <item
-        android:state_pressed="true"
-        android:drawable="@drawable/dislikered_btn"
-        />
+    <item android:drawable="@drawable/dislikered_btn" android:state_pressed="true" />
 
-    <item
-        android:drawable="@drawable/dislike_btn"
-        />
+    <item android:drawable="@drawable/dislike_btn" />
 
 </selector>

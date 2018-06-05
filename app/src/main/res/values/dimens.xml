@@ -15,4 +15,6 @@
     <dimen name="field_margin">3dp</dimen>
     <dimen name="field_height">40dp</dimen>
     <dimen name="signup_btn_margin_top">30dp</dimen>
+    <dimen name="tab_height">30dp</dimen>
+    <dimen name="bottomNavigationHeight">56dp</dimen>
 </resources>

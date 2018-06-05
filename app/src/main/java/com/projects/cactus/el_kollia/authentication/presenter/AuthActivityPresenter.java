@@ -3,7 +3,7 @@ package com.projects.cactus.el_kollia.authentication.presenter;
 
 import com.projects.cactus.el_kollia.authentication.model.AuthenticationDataManager;
 import com.projects.cactus.el_kollia.authentication.view.AuthActivityContract;
-import com.projects.cactus.el_kollia.util.Util;
+import com.projects.cactus.el_kollia.util.AppConstants;
 
 /**
  * Created by el on 6/8/2017.
@@ -32,8 +32,8 @@ public class AuthActivityPresenter implements AuthActivityContract.Presenter {
 
 
     public void checkLogedIn() {
-        if (authenticationDataManager.isLoggedin(AuthenticationDataManager.KEY_LOG_SATE, Util.KEY_USER_ID))
-            view.openProfileActivity(authenticationDataManager.getUserId(Util.KEY_USER_ID));
+        if (authenticationDataManager.isLoggedin(AuthenticationDataManager.KEY_LOG_SATE, AppConstants.KEY_USER_ID))
+            view.openProfileActivity(authenticationDataManager.getUserId(AppConstants.KEY_USER_ID));
 
 
         else

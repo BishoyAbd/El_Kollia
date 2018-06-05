@@ -1,10 +1,10 @@
 package com.projects.cactus.el_kollia.feed;
 
-import android.support.annotation.StringRes;
-
 import com.projects.cactus.el_kollia.base.BasePresenter;
 import com.projects.cactus.el_kollia.base.BaseView;
 import com.projects.cactus.el_kollia.model.Question;
+import com.projects.cactus.el_kollia.model.QuestionRequest;
+import com.projects.cactus.el_kollia.model.TAG;
 
 import java.util.List;
 
@@ -17,29 +17,29 @@ public interface FeedContract {
     interface Presenter extends BasePresenter<View> {
 
 
-        void getPosts(String userId);
+        void getPosts(QuestionRequest questionRequest);
 
-        void post(String userId, String post);
+        void post(QuestionRequest questionRequest);
 
-        void refresh();
+        //make an api call to search for this string in all questions
+        void find(String string);
 
-        void upvote(int questioId, String userId);
+        //filter current displayed questions by tags
+        void filter(String s);
     }
 
 
     interface View extends BaseView<Presenter> {
 
-        void showUpvoteSuccess();
-
-        void showUpvoteFailure();
-
-        void showUpvoteFailure(String error);
-
-        void showUpvoteFailure(@StringRes int ResId);
 
         void showPosts(List<Question> posts);
 
-        void openPostActivity(int qId);
+        void setupTags(List<TAG> tags);
 
+        void openPostActivity(int questionId);
+
+        void showFilteredData(String string);
+
+        void onClickRetry();
     }
 }

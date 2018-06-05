@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.projects.cactus.el_kollia.Activity.PostActivity">
+    tools:context="com.projects.cactus.el_kollia.Activity.QuestionActivity">
     <include layout="@layout/content_post" />
 
     <android.support.design.widget.FloatingActionButton

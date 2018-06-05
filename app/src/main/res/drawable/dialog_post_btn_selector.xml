@@ -1,27 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:state_pressed="true"
+    <item android:state_pressed="true"
 
         >
         <shape>
-            <solid android:color="@color/sky_color_pressed"/>
-            <corners android:radius="180dp"/>
+            <solid android:color="@color/sky_color_pressed" />
+            <corners android:radius="180dp" />
         </shape>
-
-
     </item>
 
 
-    <item >
+    <item>
 
         <shape>
-            <solid android:color="@color/sky_color"/>
-            <corners android:radius="360dp"/>
+            <solid android:color="@color/sky_color" />
+            <corners android:radius="360dp" />
 
         </shape>
-
 
 
     </item>

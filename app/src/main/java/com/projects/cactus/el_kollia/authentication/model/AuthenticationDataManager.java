@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import com.projects.cactus.el_kollia.ApiServices.ServiceGenerator;
 import com.projects.cactus.el_kollia.model.ServerResponse;
 import com.projects.cactus.el_kollia.model.User;
-import com.projects.cactus.el_kollia.util.Util;
+import com.projects.cactus.el_kollia.util.AppConstants;
 
 import io.reactivex.Single;
 import timber.log.Timber;
@@ -42,7 +42,7 @@ public class AuthenticationDataManager implements AuthenticationContract {
     public Single<ServerResponse> SignUpUer(User user) {
 
         ServerRequest serverRequest = new ServerRequest();
-        serverRequest.setOperation(Util.REGISTER_OPERATION);
+        serverRequest.setOperation(AppConstants.REGISTER_OPERATION);
         serverRequest.setUser(user);
 
         return authenticationService.authenticate(serverRequest);
@@ -53,7 +53,7 @@ public class AuthenticationDataManager implements AuthenticationContract {
     @Override
     public Single<ServerResponse> loginUser(String phone, String password) {
 
-        Timber.d(Util.TAG, phone + "    " + password);
+        Timber.d(AppConstants.TAG, phone + "    " + password);
 
         AuthenticationService authenticationService = ServiceGenerator.createService(AuthenticationService.class);
 
@@ -62,7 +62,7 @@ public class AuthenticationDataManager implements AuthenticationContract {
         user.setPassword(password);
 
         ServerRequest serverRequest = new ServerRequest();
-        serverRequest.setOperation(Util.LOGIN_OPERATION);
+        serverRequest.setOperation(AppConstants.LOGIN_OPERATION);
         serverRequest.setUser(user);
 
         return authenticationService.authenticate(serverRequest);
@@ -79,12 +79,12 @@ public class AuthenticationDataManager implements AuthenticationContract {
 
     @Override
     public boolean isLoggedin(String key_log_state, String key_user_id) {
-        return pref.getBoolean(key_log_state, false) && pref.getString(key_user_id, Util.NO_USER_ID) != Util.NO_USER_ID;
+        return pref.getBoolean(key_log_state, false) && pref.getString(key_user_id, AppConstants.NO_USER_ID) != AppConstants.NO_USER_ID;
     }
 
     @Override
     public String getUserId(String key) {
-        return pref.getString(key, Util.NO_USER_ID);
+        return pref.getString(key, AppConstants.NO_USER_ID);
     }
 
     @Override

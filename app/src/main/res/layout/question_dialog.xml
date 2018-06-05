@@ -1,45 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Base.Theme.AppCompat.Dialog"
     android:layout_width="300dp"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    style="@style/Base.Theme.AppCompat.Dialog">
+    android:orientation="vertical">
 
 
     <EditText
         android:id="@+id/question_dialog_et_id"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:gravity="left"
-        android:text="what is in your mind?"
+        android:gravity="start"
+        android:hint="@string/it_s_always_good_to_ask"
         android:textColor="@color/black" />
 
 
     <LinearLayout
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="100">
+        android:orientation="horizontal">
 
 
         <Button
             android:id="@+id/cancel_quest_dialogBtn_id"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_margin="5dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             android:layout_weight="50"
-            android:background="@drawable/dialog_post_btn_selector"
-            android:text="Cancel" />
+            android:background="@drawable/slightly_rounded_btn_primary_colored"
+            android:text="Cancel"
+            android:textColor="@color/white" />
 
 
         <Button
             android:id="@+id/post_quest_dialogBtn_id"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_margin="5dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             android:layout_weight="50"
-            android:background="@drawable/dialog_post_btn_selector"
-            android:text="Post" />
+            android:background="@drawable/slightly_rounded_btn_primary_colored"
+            android:text="Post"
+            android:textColor="@color/white" />
     </LinearLayout>
 
 </LinearLayout>

@@ -2,32 +2,21 @@ package com.projects.cactus.el_kollia.model;
 
 /**
  * Created by Bishoy on 2/28/2017.
- *
- *
  */
 
 //server response to user logging in and signing up
 
 public class ServerResponse {
 
-    private String result;
     private String message;
-    private User user;
-    private String error;
-
-    public String getResult() {
-        return result;
-    }
+    private boolean error;
 
     public String getMessage() {
         return message;
     }
 
-    public User getUser() {
-        return user;
-    }
 
-    public String getError() {
+    public boolean getError() {
         return error;
     }
 }

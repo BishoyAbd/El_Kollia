@@ -2,7 +2,7 @@ package com.projects.cactus.el_kollia.authentication.presenter;
 
 
 
-import com.projects.cactus.el_kollia.util.Util;
+import com.projects.cactus.el_kollia.util.AppConstants;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,7 +22,7 @@ public class AuthenticationInteractor {
 
 
         // Pattern match for email id
-        Pattern p = Pattern.compile(Util.regEx_mobile);
+        Pattern p = Pattern.compile(AppConstants.regEx_mobile);
         Matcher m = p.matcher(phone);
 
         // Check if all strings are null or not
@@ -71,7 +71,7 @@ public class AuthenticationInteractor {
         // Get email id and password
 
         // Check patter for email id
-        Pattern p = Pattern.compile(Util.regEx_email);
+        Pattern p = Pattern.compile(AppConstants.regEx_email);
 
         Matcher m = p.matcher(phone);
 
